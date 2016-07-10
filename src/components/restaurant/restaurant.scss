@@ -1,0 +1,12 @@
+.restaurant {
+  &__img {}
+
+  &__info {
+    list-style: none;
+    margin: 0;
+  }
+}
+
+.info-list {
+  &__item {}
+}
