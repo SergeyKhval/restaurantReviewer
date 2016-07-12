@@ -1,16 +1,14 @@
 require('normalize.css/normalize.css');
 require('./main.scss');
+require('./geosuggest/geosuggest.scss');
 
 import React from 'react';
+import Geosuggest from 'react-geosuggest';
 
 class AppComponent extends React.Component {
   render() {
     return (
-      <div className="search-field">
-        <input type="text" className="search-field__input" placeholder="Search for places near you" />
-        <button className="search-field__button">Search!</button>
-      </div>
-
+      <Geosuggest autofocus/>
     );
   }
 }
