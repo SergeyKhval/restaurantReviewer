@@ -1,17 +1,35 @@
-/*eslint no-console:0 */
-'use strict';
-require('core-js/fn/object/assign');
-const webpack = require('webpack');
-const WebpackDevServer = require('webpack-dev-server');
-const config = require('./webpack.config');
-const open = require('open');
+import http from 'http';
+import express from 'express';
 
-new WebpackDevServer(webpack(config), config.devServer)
-.listen(config.port, 'localhost', (err) => {
-  if (err) {
-    console.log(err);
-  }
-  console.log('Listening at localhost:' + config.port);
-  console.log('Opening your system browser...');
-  open('http://localhost:' + config.port + '/webpack-dev-server/');
+let app = express();
+
+(function initWebpack() {
+  const webpack = require('webpack');
+  const webpackConfig = require('./webpack/common.config');
+  const compiler = webpack(webpackConfig);
+
+  app.use(require('webpack-dev-middleware')(compiler, {
+    noInfo: true,
+    publicPath: webpackConfig.output.publicPath
+  }));
+
+  app.use(require('webpack-hot-middleware')(compiler, {
+    log: console.log,
+    path: '/__webpack_hmr',
+    heartbeat: 10 * 1000
+  }));
+
+  app.use(express.static(__dirname + '/'));
+})();
+
+app.get(/.*/, function (req, res) {
+  res.sendFile(__dirname + '/index.html');
+});
+
+const server = http.createServer(app);
+
+server.listen(process.env.PORT || 4000, function onListen() {
+  const address = server.address();
+  console.log('Listening on: %j', address);
+  console.log(' -> that probably means: http://localhost:%d', address.port);
 });
