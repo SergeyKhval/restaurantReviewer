@@ -1,7 +1,33 @@
-import React, {Component} from 'react'
+import React, {Component, PropTypes} from 'react';
+import {connect} from 'react-redux';
 
-export default class App extends Component {
+class App extends Component {
   render() {
-    return <div className='container'>Привет из App!</div>
+    const {restaurants} = this.props.restaurants;
+
+    return <div className='container'>
+      <h1>
+        Привет из App!
+      </h1>
+      {restaurants.map((restaurant, ind) => {
+        return (
+          <div key={ind}>
+            <h3>{restaurant.name}</h3>
+          </div>
+        )
+      })}
+    </div>
   }
 }
+
+App.propTypes = {
+  restaurants: PropTypes.array.isRequired
+};
+
+function mapStateToProps(state) {
+  return {
+    restaurants: state.restaurants
+  }
+}
+
+export default connect(mapStateToProps)(App);
