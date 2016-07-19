@@ -1,9 +1,6 @@
-const initialState = {
-  year: 2016,
-  photos: [],
-  fetching: false
-};
+import {combineReducers} from 'redux';
+import restaurants from './restaurants';
 
-export default function (state = initialState) {
-  return state;
-}
+export default combineReducers({
+  restaurants
+})
