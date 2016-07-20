@@ -1,12 +1,5 @@
 const initialState = {
-  restaurants: [
-    {
-      name: 'test'
-    },
-    {
-      name: 'another test'
-    }
-  ]
+  restaurants: []
 };
 
 export default function (state = initialState, action) {

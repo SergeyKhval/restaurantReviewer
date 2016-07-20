@@ -1,33 +1,22 @@
-import React, {Component, PropTypes} from 'react';
+import React, {Component} from 'react';
 import {connect} from 'react-redux';
+import Geosuggest from 'react-geosuggest';
+import './main.scss';
+import '../../components/Geosuggest/style.scss';
 
 class App extends Component {
+  handleSuggest(value) {
+    console.log(value);
+  }
+
   render() {
-    const {restaurants} = this.props.restaurants;
-
-    return <div className='container'>
-      <h1>
-        Привет из App!
-      </h1>
-      {restaurants.map((restaurant, ind) => {
-        return (
-          <div key={ind}>
-            <h3>{restaurant.name}</h3>
-          </div>
-        )
-      })}
-    </div>
+    const types = ['(cities)']
+    return (
+      <div className='container'>
+        <Geosuggest types={types} onSuggestSelect={this.handleSuggest}/>
+      </div>
+    )
   }
 }
 
-App.propTypes = {
-  restaurants: PropTypes.array.isRequired
-};
-
-function mapStateToProps(state) {
-  return {
-    restaurants: state.restaurants
-  }
-}
-
-export default connect(mapStateToProps)(App);
+export default connect()(App);
