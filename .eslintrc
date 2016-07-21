@@ -8,6 +8,9 @@
   "plugins": [
     "react"
   ],
+  "globals": {
+    "google": "true"
+  },
   "rules": {
     "no-debugger": 0,
     "no-console": 0,

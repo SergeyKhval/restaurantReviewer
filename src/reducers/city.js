@@ -1,9 +1,10 @@
-import {SET_CITY} from '../constants/cities';
+import {SET_CITY, SET_RESTAURANTS} from '../constants/cities';
 
 const initialState = {
   name: 'Старт',
   lat: 0,
-  lng: 0
+  lng: 0,
+  restaurants: []
 };
 
 export default function (state = initialState, action) {
@@ -14,6 +15,11 @@ export default function (state = initialState, action) {
         name: action.payload.label,
         lat: action.payload.location.lat,
         lng: action.payload.location.lng
+      };
+    case SET_RESTAURANTS:
+      return {
+        ...state,
+        restaurants: action.payload
       };
     default:
       return state;
