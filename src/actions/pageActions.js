@@ -1,6 +1,8 @@
 import {SET_CITY, SET_RESTAURANTS} from '../constants/cities';
 
 export function setCity(city) {
+  //Google waits for DOM node as an argument for PlacesService() method
+  //We will create dummy node without actually rendering a map
   let map = new google.maps.Map(document.createElement('div')),
     location = new google.maps.LatLng(city.location.lat, city.location.lng),
     request = {
