@@ -18,16 +18,9 @@ class App extends Component {
     return (
       <div className='container'>
         <Geosuggest types={types} onSuggestSelect={setCity}/>
-        <City name={city.name} lat={city.lat} lng={city.lng} />
+        <City name={city.name} lat={city.lat} lng={city.lng} restaurants={city.restaurants}/>
 
-        <p>Всего заведений: {city.restaurants.length}</p>
-        {city.restaurants.map(restaurant => {
-          return (
-            <div key={restaurant.id}>
-              <h3>{restaurant.name}</h3>
-            </div>
-          )
-        })}
+
       </div>
     )
   }
