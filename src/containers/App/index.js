@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import Geosuggest from 'react-geosuggest';
+import City from '../../components/City';
 
 import * as pageActions from '../../actions/pageActions';
 
@@ -11,14 +12,13 @@ import '../../components/Geosuggest/style.scss';
 class App extends Component {
   render() {
     const types = ['(cities)'];
-    const city = this.props.city;
+    const {city} = this.props;
     const {setCity} = this.props.pageActions;
 
     return (
       <div className='container'>
         <Geosuggest types={types} onSuggestSelect={setCity}/>
-        <p>{city.name} {city.id}</p>
-        <p>{city.lat} {city.lng}</p>
+        <City name={city.name} lat={city.lat} lng={city.lng} />
 
         <p>Всего заведений: {city.restaurants.length}</p>
         {city.restaurants.map(restaurant => {
