@@ -3,7 +3,7 @@ import Restaurant from '../Restaurant';
 
 class RestaurantList extends Component {
   render() {
-    const {restaurants} = this.props;
+    const {restaurants, setRestaurant} = this.props;
 
     let restaurantswithRating = restaurants.filter(r => !!r.rating);
 
@@ -18,7 +18,7 @@ class RestaurantList extends Component {
           }).map(restaurant => {
             return (
               <div key={restaurant.id}>
-                <Restaurant restaurant={restaurant}/>
+                <Restaurant restaurant={restaurant} setRestaurant={setRestaurant}/>
               </div>
             )
           })}

@@ -1,16 +1,18 @@
 import {SET_CITY, SET_RESTAURANTS} from '../constants/cities';
+import {SET_RESTAURANT} from '../constants/restaurant';
+import {REDIRECT} from '../constants/redirect';
+
+const GOOGLE_PLACE_SERVICE = new google.maps.places.PlacesService(new google.maps.Map(document.createElement('div')));
 
 export function setCity(city) {
   //Google waits for DOM node as an argument for PlacesService() method
   //We will create dummy node without actually rendering a map
-  let map = new google.maps.Map(document.createElement('div')),
-    location = new google.maps.LatLng(city.location.lat, city.location.lng),
+  let location = new google.maps.LatLng(city.location.lat, city.location.lng),
     request = {
       location: location,
       radius: '5000',
       types: ['restaurant', 'cafe', 'bar']
-    },
-    service = new google.maps.places.PlacesService(map);
+    };
 
   return (dispatch) => {
     dispatch({
@@ -18,7 +20,7 @@ export function setCity(city) {
       payload: city
     });
 
-    service.nearbySearch(request, function (results, status) {
+    GOOGLE_PLACE_SERVICE.nearbySearch(request, function (results, status) {
       if (status == google.maps.places.PlacesServiceStatus.OK) {
         dispatch({
           type: SET_RESTAURANTS,
@@ -26,5 +28,34 @@ export function setCity(city) {
         })
       }
     });
+  }
+}
+
+export function setRestaurant(id) {
+  let request = {
+    placeId: id
+  };
+
+  return (dispatch) => {
+    GOOGLE_PLACE_SERVICE.getDetails(request, (place, status) => {
+      if (status == google.maps.places.PlacesServiceStatus.OK) {
+        dispatch({
+          type: REDIRECT,
+          payload: {
+            method: 'push',
+            nextUrl: '/restaurants/' + id
+          }
+        });
+
+        dispatch({
+          type: SET_RESTAURANT,
+          payload: place
+        })
+      } else {
+        console.log('Error with google places API');
+      }
+    });
+
+
   }
 }
