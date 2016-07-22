@@ -1,9 +1,10 @@
 import React, {Component, PropTypes} from 'react';
+import {connect} from 'react-redux';
 import RestaurantList from '../RestaurantList';
 
 class City extends Component {
   render() {
-    const {name, lat, lng, restaurants} = this.props;
+    const {name, lat, lng, restaurants} = this.props.city;
     return (
       <div className='city'>
         <p>{name}</p>
@@ -14,11 +15,14 @@ class City extends Component {
   }
 }
 
+function mapStateToProps(state) {
+  return {
+    city: state.city
+  }
+}
+
 City.propTypes = {
-  name: PropTypes.string.isRequired,
-  lat: PropTypes.number.isRequired,
-  lng: PropTypes.number.isRequired,
-  restaurants: PropTypes.array.isRequired
+  city: PropTypes.object.isRequired
 };
 
-export default  City;
+export default  connect(mapStateToProps)(City);
