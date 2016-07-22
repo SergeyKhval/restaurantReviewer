@@ -1,8 +1,8 @@
 import {browserHistory} from 'react-router'
-import {ROUTING} from '../constants/redirect'
+import {REDIRECT} from '../constants/redirect'
 
 export const redirect = store => next => action => { //eslint-disable-line no-unused-vars
-  if (action.type === ROUTING) {
+  if (action.type === REDIRECT) {
     browserHistory[action.payload.method](action.payload.nextUrl)
   }
 
