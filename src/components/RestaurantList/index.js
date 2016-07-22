@@ -9,9 +9,6 @@ class RestaurantList extends Component {
 
     return (
       <div>
-        <h3>Restaurants list</h3>
-        <p>Всего: {restaurantswithRating.length}</p>
-
         {restaurantswithRating
           .sort((a, b) => {
             return parseFloat(b.rating) - parseFloat(a.rating);

@@ -6,13 +6,11 @@ import RestaurantList from '../RestaurantList';
 
 class City extends Component {
   render() {
-    const {name, lat, lng, restaurants} = this.props.city;
+    const {restaurants} = this.props.city;
     const {setRestaurant} = this.props.pageActions;
 
     return (
       <div className='city'>
-        <p>{name}</p>
-        <p>{lat} {lng}</p>
         <RestaurantList restaurants={restaurants} setRestaurant={setRestaurant}/>
       </div>
     )

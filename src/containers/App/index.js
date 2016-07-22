@@ -15,8 +15,11 @@ class App extends Component {
 
     return (
       <div className='container'>
-        <Geosuggest types={types} onSuggestSelect={setCity}/>
-        {this.props.children}
+        <div className='row'>
+          <div className='col-xs-12'>
+            <Geosuggest types={types} onSuggestSelect={setCity}/>
+            {this.props.children}</div>
+        </div>
       </div>
     )
   }
