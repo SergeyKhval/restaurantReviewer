@@ -6,7 +6,7 @@ import './style.scss';
 
 class DetailedRestaurant extends Component {
   componentWillMount() {
-    window.scrollTo({top: 0});
+    window.scrollTo(0, 0);
   }
 
   render() {
