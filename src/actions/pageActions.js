@@ -24,7 +24,7 @@ export function setCity(city) {
       if (status == google.maps.places.PlacesServiceStatus.OK) {
         dispatch({
           type: SET_RESTAURANTS,
-          payload: results
+          payload: results.filter(r => !!r.rating && r.types.indexOf('lodging') < 0)
         })
       }
     });
