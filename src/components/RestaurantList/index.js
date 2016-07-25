@@ -1,6 +1,8 @@
 import React, {Component, PropTypes} from 'react';
 import Restaurant from '../Restaurant';
 
+import './style.scss';
+
 class RestaurantList extends Component {
   render() {
     const {restaurants, setRestaurant} = this.props;
@@ -8,18 +10,18 @@ class RestaurantList extends Component {
     let restaurantswithRating = restaurants.filter(r => !!r.rating);
 
     return (
-      <div>
+      <ul className='restaurant-list list-unstyled'>
         {restaurantswithRating
           .sort((a, b) => {
             return parseFloat(b.rating) - parseFloat(a.rating);
           }).map(restaurant => {
             return (
-              <div key={restaurant.id}>
+              <li key={restaurant.id} className='restaurant-list__item'>
                 <Restaurant restaurant={restaurant} setRestaurant={setRestaurant}/>
-              </div>
+              </li>
             )
           })}
-      </div>
+      </ul>
     )
   }
 }

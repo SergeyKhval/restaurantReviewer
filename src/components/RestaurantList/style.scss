@@ -1,0 +1,12 @@
+.restaurant-list {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-between;
+
+  &__item {
+    flex-basis: 31%;
+
+    margin-bottom: 3rem;
+  }
+}

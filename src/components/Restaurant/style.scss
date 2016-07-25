@@ -1,18 +1,42 @@
 @import '../../styles/variables';
 
 .restaurant-preview {
+  text-align: center;
+
+  background-size: cover;
+  background-position: center center;
+
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
 
-  margin-bottom: 1.5rem;
-  padding-bottom: 0.5rem;
+  position: relative;
+  overflow: hidden;
 
-  &__img {
-    margin-right: 1rem;
+  height: 400px;
+
+  &:after {
+    content: '';
+    background-color: rgba($gray-dark, 0.7);
+
+    position: absolute;
+
+    height: 100%;
+    width: 100%;
+    top: 0;
+    left: 0;
+
+    z-index: 0;
   }
 }
 
 .preview-info {
+  color: $gray-light;
+
+  position: relative;
+  z-index: 1;
+
   &__title {
     margin-top: 0;
     margin-bottom: 1rem;

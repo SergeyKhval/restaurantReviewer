@@ -12,13 +12,10 @@ class Restaurant extends Component {
 
   render() {
     const {restaurant} = this.props;
-    let imgUrl = restaurant.photos ? restaurant.photos[0].getUrl({'maxWidth': 128, 'maxHeight': 128}) : '';
+    let imgUrl = restaurant.photos ? restaurant.photos[0].getUrl({'maxWidth': 350}) : '';
 
     return (
-      <div className='restaurant-preview' onClick={::this.handleClick}>
-        <div className='restaurant-preview__img'>
-          <img className='img-thumbnail' src={imgUrl} alt={restaurant.name}/>
-        </div>
+      <a href='#' className='restaurant-preview' onClick={::this.handleClick} style={{backgroundImage: `url(${imgUrl})`}}>
         <div className='restaurant-preview__info preview-info'>
           <h3 className='preview-info__title'>{restaurant.name}</h3>
           <p className='preview-info__text'>{restaurant.vicinity}</p>
@@ -26,7 +23,7 @@ class Restaurant extends Component {
         </div>
 
 
-      </div>
+      </a>
     )
   }
 }
