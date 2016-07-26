@@ -20,6 +20,14 @@ export function setCity(city) {
       payload: city
     });
 
+    dispatch({
+      type: REDIRECT,
+      payload: {
+        method: 'push',
+        nextUrl: `/city/${city.placeId}/restaurants`
+      }
+    });
+
     GOOGLE_PLACE_SERVICE.nearbySearch(request, function (results, status) {
       if (status == google.maps.places.PlacesServiceStatus.OK) {
         dispatch({
@@ -36,14 +44,16 @@ export function setRestaurant(id) {
     placeId: id
   };
 
-  return (dispatch) => {
+  return (dispatch, getState) => {
+    let cityId = getState().city.id;
+
     GOOGLE_PLACE_SERVICE.getDetails(request, (place, status) => {
       if (status == google.maps.places.PlacesServiceStatus.OK) {
         dispatch({
           type: REDIRECT,
           payload: {
             method: 'push',
-            nextUrl: '/restaurants/' + id
+            nextUrl: `/city/${cityId}/restaurants/${id}`
           }
         });
 
