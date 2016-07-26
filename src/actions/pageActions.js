@@ -20,20 +20,20 @@ export function setCity(city) {
       payload: city
     });
 
-    dispatch({
-      type: REDIRECT,
-      payload: {
-        method: 'push',
-        nextUrl: `/city/${city.placeId}/restaurants`
-      }
-    });
-
     GOOGLE_PLACE_SERVICE.nearbySearch(request, function (results, status) {
       if (status == google.maps.places.PlacesServiceStatus.OK) {
         dispatch({
           type: SET_RESTAURANTS,
           payload: results.filter(r => !!r.rating && r.types.indexOf('lodging') < 0)
-        })
+        });
+
+        dispatch({
+          type: REDIRECT,
+          payload: {
+            method: 'push',
+            nextUrl: `/city/${city.placeId}/restaurants`
+          }
+        });
       }
     });
   }
@@ -50,17 +50,17 @@ export function setRestaurant(id) {
     GOOGLE_PLACE_SERVICE.getDetails(request, (place, status) => {
       if (status == google.maps.places.PlacesServiceStatus.OK) {
         dispatch({
+          type: SET_RESTAURANT,
+          payload: place
+        });
+
+        dispatch({
           type: REDIRECT,
           payload: {
             method: 'push',
             nextUrl: `/city/${cityId}/restaurants/${id}`
           }
         });
-
-        dispatch({
-          type: SET_RESTAURANT,
-          payload: place
-        })
       } else {
         console.log('Error with google places API');
       }

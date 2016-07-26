@@ -14,12 +14,8 @@ class App extends Component {
     const {setCity} = this.props.pageActions;
 
     return (
-      <div className='container'>
-        <div className='row'>
-          <div className='col-xs-12'>
-            <Geosuggest types={types} onSuggestSelect={setCity}/>
-            {this.props.children}</div>
-        </div>
+      <div className='homepage'>
+        <Geosuggest autoFocus types={types} onSuggestSelect={setCity}/>
       </div>
     )
   }
