@@ -62,11 +62,25 @@ class DetailedRestaurant extends Component {
             <div className='col-xs-12'>
               {imagesTemplate}
               {reviewsTemplate}
-              <Button bsStyle='primary' onClick={this.openModal.bind(this)}>Add review</Button>
+              <Button bsStyle='primary' onClick={::this.openModal}>Add review</Button>
               <Modal show={reviewModalOpen}>
-                <Modal.Header>test</Modal.Header>
-                <Modal.Body>Test</Modal.Body>
-                <Modal.Footer>Test</Modal.Footer>
+                <Modal.Header>Add your review</Modal.Header>
+                <Modal.Body>
+                  <div className='form-group'>
+                    <label className='control-label' htmlFor='review'>Review</label>
+                    <textarea className='form-control' name='review' id='review' placeholder='What a marvelous place...'
+                              autoFocus/>
+                  </div>
+                  <div className='form-group'>
+                    <label className='control-label' htmlFor='rating'>Rating</label>
+                    <input id='rating' className='form-control' type='number' min={0} max={5}
+                           placeholder='Rate this place between 0 and 5'/>
+                  </div>
+                </Modal.Body>
+                <Modal.Footer>
+                  <Button bsStyle='success'>Add review</Button>
+                  <Button bsStyle='danger' onClick={::this.closeModal}>Cancel</Button>
+                </Modal.Footer>
               </Modal>
             </div>
           </div>
