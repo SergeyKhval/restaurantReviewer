@@ -1,3 +1,5 @@
+@import '../../styles/variables';
+
 .restaurant-list {
   display: flex;
   flex-direction: row;
@@ -5,8 +7,17 @@
   justify-content: space-between;
 
   &__item {
-    flex-basis: 31%;
+    flex-basis: 100%;
 
     margin-bottom: 3rem;
+  }
+}
+
+@media (min-width: $screen-md-min){
+  .restaurant-list {
+
+    &__item {
+      flex-basis: 31%;
+    }
   }
 }

@@ -509,7 +509,7 @@ $state-info-text:                #31708f;
 $state-info-bg:                  #d9edf7;
 $state-info-border:              darken(adjust-hue($state-info-bg, -10), 7%);
 
-$state-warning-text: #f8ff71;
+$state-warning-text: $brand-warning;
 $state-warning-bg:               #fcf8e3;
 $state-warning-border:           darken(adjust-hue($state-warning-bg, -10), 5%);
 

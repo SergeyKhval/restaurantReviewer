@@ -17,7 +17,7 @@ class Restaurant extends Component {
     return (
       <a href='#' className='restaurant-preview' onClick={::this.handleClick} style={{backgroundImage: `url(${imgUrl})`}}>
         <div className='restaurant-preview__info preview-info'>
-          <h3 className='preview-info__title'>{restaurant.name}</h3>
+          <h2 className='preview-info__title'>{restaurant.name}</h2>
           <p className='preview-info__text'>{restaurant.vicinity}</p>
           <StarRating rating={restaurant.rating}/>
         </div>
