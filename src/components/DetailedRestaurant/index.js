@@ -1,6 +1,9 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
+import {Button, Modal} from 'react-bootstrap';
 import Review from '../Review';
+import * as actions from '../../actions/detailedRestaurantActions';
 
 //Component styles
 import './style.scss';
@@ -10,8 +13,17 @@ class DetailedRestaurant extends Component {
     window.scrollTo(0, 0);
   }
 
+  openModal() {
+    this.props.actions.toggleModal(true);
+  }
+
+  closeModal() {
+    this.props.actions.toggleModal(false);
+  }
+
   render() {
     const {name, photos, reviews, website, formatted_address, formatted_phone_number} = this.props.restaurant;
+    const {reviewModalOpen} = this.props;
 
     let headPhoto = photos ? photos.shift().getUrl({'maxWidth': 1200}) : '';
 
@@ -50,6 +62,12 @@ class DetailedRestaurant extends Component {
             <div className='col-xs-12'>
               {imagesTemplate}
               {reviewsTemplate}
+              <Button bsStyle='primary' onClick={this.openModal.bind(this)}>Add review</Button>
+              <Modal show={reviewModalOpen}>
+                <Modal.Header>test</Modal.Header>
+                <Modal.Body>Test</Modal.Body>
+                <Modal.Footer>Test</Modal.Footer>
+              </Modal>
             </div>
           </div>
         </div>
@@ -61,8 +79,15 @@ class DetailedRestaurant extends Component {
 
 function mapStateToProps(state) {
   return {
-    restaurant: state.restaurant.restaurant
+    restaurant: state.restaurant.restaurant,
+    reviewModalOpen: state.ui.reviewModalOpen
   }
 }
 
-export default connect(mapStateToProps)(DetailedRestaurant);
+function mapDispatchToProps(dispatch) {
+  return {
+    actions: bindActionCreators(actions, dispatch)
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(DetailedRestaurant);

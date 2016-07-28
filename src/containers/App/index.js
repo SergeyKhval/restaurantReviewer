@@ -15,7 +15,7 @@ class App extends Component {
 
     return (
       <div className='homepage'>
-        <Geosuggest autoFocus types={types} onSuggestSelect={setCity}/>
+        <Geosuggest autoFocus types={types} onSuggestSelect={setCity} placeholder='Enter any city e.g. New York'/>
       </div>
     )
   }

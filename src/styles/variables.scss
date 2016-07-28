@@ -10,15 +10,15 @@ $bootstrap-sass-asset-helper: false;
 
 $gray-base:              #000;
 $gray-darker:            lighten($gray-base, 13.5%); // #222
-$gray-dark: #2c3e50;
+$gray-dark: #263248;
 $gray:                   lighten($gray-base, 33.5%); // #555
 $gray-light: #ecf0f1;
-$gray-lighter:           lighten($gray-base, 93.5%); // #eee
+$gray-lighter:           #ffffff; // #eee
 
-$brand-primary: #3498db;
+$brand-primary: #263248;
 $brand-success:         #5cb85c;
-$brand-info: #2980b9;
-$brand-warning:         #f0ad4e;
+$brand-info: #7e8aa2;
+$brand-warning:         #ff9800;
 $brand-danger: #e74c3c;
 
 
