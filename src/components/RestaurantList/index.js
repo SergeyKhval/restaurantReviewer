@@ -13,15 +13,18 @@ class RestaurantList extends Component {
       });
 
     return (
-      <ul className='restaurant-list list-unstyled'>
-        {sortedRestaurants.map(restaurant => {
-          return (
-            <li key={restaurant.id} className='restaurant-list__item'>
-              <Restaurant restaurant={restaurant} setRestaurant={setRestaurant}/>
-            </li>
-          )
-        })}
-      </ul>
+      <div className='container'>
+        <div className='row'>
+          {sortedRestaurants.map(restaurant => {
+            return (
+              <div key={restaurant.id} className='col-md-4'>
+                <Restaurant restaurant={restaurant} setRestaurant={setRestaurant}/>
+              </div>
+            )
+          })}
+        </div>
+      </div>
+
     )
   }
 }
