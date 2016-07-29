@@ -8,6 +8,8 @@ import City from './components/City';
 import DetailedRestaurant from './components/DetailedRestaurant';
 import configureStore from './store/configureStore';
 
+import './styles/app.scss';
+
 const store = configureStore();
 
 render(

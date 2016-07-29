@@ -25,7 +25,7 @@ class DetailedRestaurant extends Component {
     const {name, photos, reviews, website, formatted_address, formatted_phone_number} = this.props.restaurant;
     const {reviewModalOpen} = this.props;
 
-    let headPhoto = photos ? photos.shift().getUrl({'maxWidth': 1200}) : '';
+    let headPhoto = photos ? photos[0].getUrl({'maxWidth': 1200}) : '';
 
     let reviewsTemplate = reviews.map((review, index) => {
       return (
@@ -35,32 +35,30 @@ class DetailedRestaurant extends Component {
       )
     });
 
-    let imagesTemplate = photos ? photos.map((photo, index) => {
-      let imgUrl = photo.getUrl({'maxWidth': 300, 'maxHeight': 300});
-
-      return (
-        <img key={index} src={imgUrl} alt={name}/>
-      )
-    }) : 'There are no pictures of this place yet';
+    // let imagesTemplate = photos ? photos.map((photo, index) => {
+    //   let imgUrl = photo.getUrl({'maxWidth': 300, 'maxHeight': 300});
+    //
+    //   return (
+    //     <img key={index} src={imgUrl} alt={name}/>
+    //   )
+    // }) : 'There are no pictures of this place yet';
 
     return (
       <div>
         <div className='container-fluid'>
           <div className='row'>
-            <div className='col-xs-12'>
-              <div className='restaurant-heading' style={{backgroundImage: `url(${headPhoto})`}}>
-                <p className='restaurant-heading__info'>{name}</p>
-                {website ? <p className='restaurant-heading__info'><a href={website}>Our website</a></p> : null}
-                <p className='restaurant-heading__info'>{formatted_address}</p>
-                <p className='restaurant-heading__info'>{formatted_phone_number}</p>
-              </div>
+            <div className='restaurant-heading' style={{backgroundImage: `url(${headPhoto})`}}>
+              <h1 className='restaurant-heading__title'>{name}</h1>
+              {website ? <p className='restaurant-heading__info'><a href={website}>Our website</a></p> : null}
+              <p className='restaurant-heading__info'>{formatted_address}</p>
+              <p className='restaurant-heading__info'><a href={`tel:${formatted_phone_number}`}>{formatted_phone_number}</a></p>
             </div>
           </div>
         </div>
         <div className='container'>
           <div className='row'>
             <div className='col-xs-12'>
-              {imagesTemplate}
+              {/*{imagesTemplate}*/}
               {reviewsTemplate}
               <Button bsStyle='primary' onClick={::this.openModal}>Add review</Button>
               <Modal show={reviewModalOpen}>
