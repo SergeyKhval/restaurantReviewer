@@ -30,7 +30,7 @@ class DetailedRestaurant extends Component {
     let reviewsTemplate = reviews.map((review, index) => {
       return (
         <div key={index}>
-          <Review author={review.author_name} text={review.text} rating={review.rating}/>
+          <Review author={review.author_name} text={review.text} rating={review.rating} date={review.time}/>
         </div>
       )
     });

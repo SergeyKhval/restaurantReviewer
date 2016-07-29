@@ -1,7 +1,6 @@
 import {SET_RESTAURANT, TOGGLE_REVIEW_MODAL} from '../constants/restaurant';
 
 const initialState = {
-  reviewModalOpen: false
 };
 
 export default function (state = initialState, action) {
