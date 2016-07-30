@@ -17,7 +17,7 @@ class Restaurant extends Component {
     return (
       <div className='restaurant-preview__info preview-info thumbnail' onClick={::this.handleClick}>
         <img src={imgUrl} alt={restaurant.name}/>
-        <div className="caption">
+        <div className='caption'>
           <h2 className='preview-info__title'>{restaurant.name}</h2>
           <p className='preview-info__text'>{restaurant.vicinity}</p>
           <StarRating rating={restaurant.rating}/>

@@ -1,3 +1,4 @@
+import Firebase from 'firebase';
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
@@ -11,10 +12,22 @@ import './style.scss';
 class DetailedRestaurant extends Component {
   componentWillMount() {
     window.scrollTo(0, 0);
+    this.props.actions.getReviews(this.props.params.restaurantId);
   }
 
   openModal() {
     this.props.actions.toggleModal(true);
+  }
+
+  addReview(event) {
+    event.preventDefault();
+
+    this.props.actions.addReview({
+      review: event.target.elements.review.value,
+      rating: event.target.elements.rating.value,
+      author: event.target.elements.author.value,
+      date: Firebase.database.ServerValue.TIMESTAMP
+    }, this.props.params.restaurantId);
   }
 
   closeModal() {
@@ -24,13 +37,29 @@ class DetailedRestaurant extends Component {
   render() {
     const {name, photos, reviews, website, formatted_address, formatted_phone_number} = this.props.restaurant;
     const {reviewModalOpen} = this.props;
+    const {firebaseReviews} = this.props;
 
-    let headPhoto = photos ? photos[0].getUrl({'maxWidth': 1200}) : '';
+    console.log(typeof firebaseReviews);
+
+    let headPhoto = photos ? photos[0].getUrl({'maxWidth': 1200}) : '',
+      firebaseReviewsTemplate;
+
+    if (firebaseReviews) {
+      firebaseReviewsTemplate = Object.keys(firebaseReviews).map((key, index) => {
+        let review = firebaseReviews[key];
+        return (
+          <div key={index}>
+            <Review text={review.review} rating={review.rating} author={review.author} date={review.date}/>
+          </div>
+        )
+      });
+    }
+
 
     let reviewsTemplate = reviews.map((review, index) => {
       return (
         <div key={index}>
-          <Review author={review.author_name} text={review.text} rating={review.rating} date={review.time}/>
+          <Review author={review.author_name} text={review.text} rating={review.rating} date={review.time * 1000}/>
         </div>
       )
     });
@@ -51,7 +80,8 @@ class DetailedRestaurant extends Component {
               <h1 className='restaurant-heading__title'>{name}</h1>
               {website ? <p className='restaurant-heading__info'><a href={website}>Our website</a></p> : null}
               <p className='restaurant-heading__info'>{formatted_address}</p>
-              <p className='restaurant-heading__info'><a href={`tel:${formatted_phone_number}`}>{formatted_phone_number}</a></p>
+              <p className='restaurant-heading__info'><a
+                href={`tel:${formatted_phone_number}`}>{formatted_phone_number}</a></p>
             </div>
           </div>
         </div>
@@ -59,26 +89,34 @@ class DetailedRestaurant extends Component {
           <div className='row'>
             <div className='col-xs-12'>
               {/*{imagesTemplate}*/}
+              {firebaseReviewsTemplate}
               {reviewsTemplate}
               <Button bsStyle='primary' onClick={::this.openModal}>Add review</Button>
               <Modal show={reviewModalOpen}>
                 <Modal.Header>Add your review</Modal.Header>
                 <Modal.Body>
-                  <div className='form-group'>
-                    <label className='control-label' htmlFor='review'>Review</label>
-                    <textarea className='form-control' name='review' id='review' placeholder='What a marvelous place...'
-                              autoFocus/>
-                  </div>
-                  <div className='form-group'>
-                    <label className='control-label' htmlFor='rating'>Rating</label>
-                    <input id='rating' className='form-control' type='number' min={0} max={5}
-                           placeholder='Rate this place between 0 and 5'/>
-                  </div>
+                  <form onSubmit={::this.addReview}>
+                    <div className='form-group'>
+                      <label htmlFor='author' className='control-label'>Name:</label>
+                      <input type='text' id='author' name='author' className='form-control' placeholder='Your name'
+                             required autoFocus/>
+                    </div>
+                    <div className='form-group'>
+                      <label className='control-label' htmlFor='review'>Review</label>
+                      <textarea className='form-control' name='review' id='review'
+                                placeholder='What a marvelous place...' required/>
+                    </div>
+                    <div className='form-group'>
+                      <label className='control-label' htmlFor='rating'>Rating</label>
+                      <input id='rating' name='rating' className='form-control' type='number' min={0} max={5}
+                             placeholder='Rate this place between 0 and 5' required/>
+                    </div>
+                    <div className='form-group'>
+                      <Button bsStyle='success' type='submit'>Add review</Button>
+                      <Button bsStyle='danger' onClick={::this.closeModal}>Cancel</Button>
+                    </div>
+                  </form>
                 </Modal.Body>
-                <Modal.Footer>
-                  <Button bsStyle='success'>Add review</Button>
-                  <Button bsStyle='danger' onClick={::this.closeModal}>Cancel</Button>
-                </Modal.Footer>
               </Modal>
             </div>
           </div>
@@ -91,6 +129,7 @@ class DetailedRestaurant extends Component {
 
 function mapStateToProps(state) {
   return {
+    firebaseReviews: state.restaurant.reviews,
     restaurant: state.restaurant.restaurant,
     reviewModalOpen: state.ui.reviewModalOpen
   }

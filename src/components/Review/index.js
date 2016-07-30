@@ -5,7 +5,7 @@ class Review extends Component {
   render() {
     const {author, text, rating, date} = this.props;
 
-    let d = new Date(date * 1000);
+    let d = new Date(date);
 
     return (
       <div>
@@ -23,7 +23,8 @@ class Review extends Component {
 Review.propTypes = {
   author: PropTypes.string.isRequired,
   text: PropTypes.string.isRequired,
-  rating: PropTypes.number.isRequired
+  rating: PropTypes.number.isRequired,
+  date: PropTypes.number.isRequired
 };
 
 export default Review;
