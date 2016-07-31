@@ -81,7 +81,7 @@ class DetailedRestaurant extends Component {
                   {formatted_phone_number}
                 </a>
               </p>
-              <p className="restaurant-heading__rating">
+              <p className='restaurant-heading__rating'>
                 <StarRating rating={rating}/>
               </p>
             </div>

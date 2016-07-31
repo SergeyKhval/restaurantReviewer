@@ -53,10 +53,23 @@
   color: $gray-light;
 
   position: relative;
+  overflow: hidden;
+
+  height: 380px;
   z-index: 1;
 
+  img {
+    height: 260px;
+  }
+
   &__title {
+    white-space: nowrap;
+
     margin-top: 0;
     margin-bottom: 1rem;
+
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
+
 }
