@@ -58,6 +58,10 @@
   height: 380px;
   z-index: 1;
 
+  box-shadow: 0 0 0 $brand-primary;
+
+  transition: all 0.25s ease;
+
   img {
     height: 260px;
   }
@@ -70,6 +74,11 @@
 
     overflow: hidden;
     text-overflow: ellipsis;
+  }
+
+  &:hover,
+  &:focus {
+    box-shadow: 0 0 5px $brand-primary;
   }
 
 }

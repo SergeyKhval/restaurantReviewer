@@ -15,7 +15,7 @@ class Restaurant extends Component {
     let imgUrl = restaurant.photos ? restaurant.photos[0].getUrl({'maxWidth': 350}) : '';
 
     return (
-      <div className='restaurant-preview__info preview-info thumbnail' onClick={::this.handleClick}
+      <a href='#' className='restaurant-preview__info preview-info thumbnail' onClick={::this.handleClick}
            title={restaurant.name}>
         <img src={imgUrl} alt={restaurant.name}/>
         <div className='caption'>
@@ -24,7 +24,7 @@ class Restaurant extends Component {
           <StarRating rating={restaurant.rating}/>
         </div>
 
-      </div>
+      </a>
 
 
     )
