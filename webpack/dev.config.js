@@ -15,9 +15,11 @@ module.exports = {
   module: {
     loaders: [{
       test: /\.scss$/,
-      loader: 'style!css?localIdentName=[path][name]--[local]!postcss-loader!sass',
+      loader: 'style!css?localIdentName=[path][name]--[local]!postcss-loader!sass!sass-resources',
     }],
   },
+
+  sassResources: ['./src/styles/variables.scss', './src/styles/sass-resources.scss'],
 
   plugins: [
     new webpack.DefinePlugin({

@@ -11,7 +11,9 @@ import './style.scss';
 class RestaurantList extends Component {
   render() {
     const {restaurants} = this.props.city;
-    const {setRestaurant} = this.props.pageActions;
+    const {setRestaurant, setCity} = this.props.pageActions;
+
+    const types = ['(cities)'];
 
     let sortedRestaurants = restaurants
       .sort((a, b) => {
@@ -37,7 +39,7 @@ class RestaurantList extends Component {
               <div className='collapse navbar-collapse' id='bs-example-navbar-collapse-1'>
                 <form className='navbar-form navbar-left'>
                   <div className='form-group'>
-                    <Geosuggest />
+                    <Geosuggest className='geosuggest_unstyled' types={types} onSuggestSelect={setCity} />
                   </div>
                 </form>
               </div>

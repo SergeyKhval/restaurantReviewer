@@ -28,7 +28,11 @@ export function getReviews(restaurantId) {
 export function addReview(review, restaurantId) {
   let Reviews = firebaseDB.ref(`restaurants/${restaurantId}/reviews`);
 
-  return () => {
+  return (dispatch) => {
+    dispatch({
+      type: TOGGLE_REVIEW_MODAL,
+      payload: false
+    });
     return Reviews.push(review);
   }
 }

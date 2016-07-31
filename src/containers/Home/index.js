@@ -5,7 +5,7 @@ import Geosuggest from 'react-geosuggest';
 
 import * as pageActions from '../../actions/pageActions';
 
-import './main.scss';
+import './style.scss';
 import '../../components/Geosuggest/style.scss';
 
 class App extends Component {

@@ -1,6 +1,4 @@
 import React, {Component, PropTypes} from 'react';
-import './style.scss';
-
 class StarRating extends Component {
   render() {
     let rating = Math.round(this.props.rating);
