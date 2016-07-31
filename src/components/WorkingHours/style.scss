@@ -1,0 +1,30 @@
+@import '../../styles/variables';
+
+.working-hours {
+  &__title {
+  }
+}
+
+.hours-list {
+  display: flex;
+  justify-content: space-between;
+
+  &__item {
+    margin-right: 0.5rem;
+
+    &:last-child {
+      margin-right: 0;
+    }
+  }
+}
+
+.hours-item {
+  text-align: center;
+
+  &__text {
+  }
+
+  &_active {
+    border: 2px solid $brand-success;
+  }
+}

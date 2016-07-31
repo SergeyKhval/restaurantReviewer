@@ -1,3 +1,9 @@
 body {
   font-family: 'Ubuntu', sans-serif;
 }
+
+.panel-heading {
+  &_header {
+    margin-top: 0;
+  }
+}

@@ -8,11 +8,14 @@ class Review extends Component {
     let d = new Date(date);
 
     return (
-      <div>
+      <div className='well well-sm'>
         <blockquote>
           <p>{text}</p>
           <StarRating rating={rating}/>
-          <footer>{`${d.getMonth()}-${d.getDate()}-${d.getFullYear()}`}<cite> {author}</cite></footer>
+          <footer>
+            <cite><span className='glyphicon glyphicon-user'/> {author}          </cite>
+            {`${d.getMonth()}-${d.getDate()}-${d.getFullYear()}`}
+          </footer>
         </blockquote>
 
       </div>

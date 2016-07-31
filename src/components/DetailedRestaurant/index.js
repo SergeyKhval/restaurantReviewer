@@ -4,6 +4,7 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {Button, Modal} from 'react-bootstrap';
 import Review from '../Review';
+import WorkingHours from '../WorkingHours';
 import * as actions from '../../actions/detailedRestaurantActions';
 
 //Component styles
@@ -36,10 +37,9 @@ class DetailedRestaurant extends Component {
 
   render() {
     const {name, photos, reviews, website, formatted_address, formatted_phone_number} = this.props.restaurant;
+    const {weekday_text} = this.props.restaurant.opening_hours;
     const {reviewModalOpen} = this.props;
     const {firebaseReviews} = this.props;
-
-    console.log(typeof firebaseReviews);
 
     let headPhoto = photos ? photos[0].getUrl({'maxWidth': 1200}) : '',
       firebaseReviewsTemplate;
@@ -48,9 +48,7 @@ class DetailedRestaurant extends Component {
       firebaseReviewsTemplate = Object.keys(firebaseReviews).map((key, index) => {
         let review = firebaseReviews[key];
         return (
-          <div key={index}>
-            <Review text={review.review} rating={review.rating} author={review.author} date={review.date}/>
-          </div>
+          <Review key={index} text={review.review} rating={review.rating} author={review.author} date={review.date}/>
         )
       });
     }
@@ -58,19 +56,10 @@ class DetailedRestaurant extends Component {
 
     let reviewsTemplate = reviews.map((review, index) => {
       return (
-        <div key={index}>
-          <Review author={review.author_name} text={review.text} rating={review.rating} date={review.time * 1000}/>
-        </div>
+        <Review key={index} author={review.author_name} text={review.text} rating={review.rating}
+                date={review.time * 1000}/>
       )
     });
-
-    // let imagesTemplate = photos ? photos.map((photo, index) => {
-    //   let imgUrl = photo.getUrl({'maxWidth': 300, 'maxHeight': 300});
-    //
-    //   return (
-    //     <img key={index} src={imgUrl} alt={name}/>
-    //   )
-    // }) : 'There are no pictures of this place yet';
 
     return (
       <div>
@@ -79,19 +68,43 @@ class DetailedRestaurant extends Component {
             <div className='restaurant-heading' style={{backgroundImage: `url(${headPhoto})`}}>
               <h1 className='restaurant-heading__title'>{name}</h1>
               {website ? <p className='restaurant-heading__info'><a href={website}>Our website</a></p> : null}
-              <p className='restaurant-heading__info'>{formatted_address}</p>
-              <p className='restaurant-heading__info'><a
-                href={`tel:${formatted_phone_number}`}>{formatted_phone_number}</a></p>
+              <p className='restaurant-heading__info'>
+                <span className='glyphicon glyphicon-map-marker'/>
+                &nbsp;
+                {formatted_address}
+              </p>
+              <p className='restaurant-heading__info'>
+                <a href={`tel:${formatted_phone_number}`}>
+                  <span className='glyphicon glyphicon-earphone'/>
+                  &nbsp;
+                  {formatted_phone_number}
+                </a>
+              </p>
             </div>
           </div>
         </div>
         <div className='container'>
           <div className='row'>
             <div className='col-xs-12'>
-              {/*{imagesTemplate}*/}
-              {firebaseReviewsTemplate}
-              {reviewsTemplate}
-              <Button bsStyle='primary' onClick={::this.openModal}>Add review</Button>
+              <section className='panel panel-primary'>
+                <h2 className='panel-heading panel-heading_header'>
+                  Working hours
+                </h2>
+                <div className='panel-body'>
+                  <WorkingHours weekdayText={weekday_text}/>
+                </div>
+              </section>
+              <section className='panel panel-primary'>
+                <h2 className='panel-heading panel-heading_header'>
+                  Reviews
+                </h2>
+                <div className='panel-body'>
+                  {firebaseReviewsTemplate}
+                  {reviewsTemplate}
+                  <Button bsStyle='primary' onClick={::this.openModal}>Add review</Button>
+                </div>
+
+              </section>
               <Modal show={reviewModalOpen}>
                 <Modal.Header>Add your review</Modal.Header>
                 <Modal.Body>
