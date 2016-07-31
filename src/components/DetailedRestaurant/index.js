@@ -5,6 +5,7 @@ import {bindActionCreators} from 'redux';
 import {Button, Modal} from 'react-bootstrap';
 import Review from '../Review';
 import WorkingHours from '../WorkingHours';
+import StarRating from '../StarRating';
 import * as actions from '../../actions/detailedRestaurantActions';
 
 //Component styles
@@ -36,7 +37,7 @@ class DetailedRestaurant extends Component {
   }
 
   render() {
-    const {name, photos, reviews, website, formatted_address, formatted_phone_number} = this.props.restaurant;
+    const {name, photos, reviews, website, formatted_address, formatted_phone_number, rating} = this.props.restaurant;
     const {weekday_text} = this.props.restaurant.opening_hours;
     const {reviewModalOpen} = this.props;
     const {firebaseReviews} = this.props;
@@ -80,6 +81,9 @@ class DetailedRestaurant extends Component {
                   {formatted_phone_number}
                 </a>
               </p>
+              <p className="restaurant-heading__rating">
+                <StarRating rating={rating}/>
+              </p>
             </div>
           </div>
         </div>
@@ -99,9 +103,9 @@ class DetailedRestaurant extends Component {
                   Reviews
                 </h2>
                 <div className='panel-body'>
+                  <p><Button bsStyle='primary' onClick={::this.openModal}>Add review</Button></p>
                   {firebaseReviewsTemplate}
                   {reviewsTemplate}
-                  <Button bsStyle='primary' onClick={::this.openModal}>Add review</Button>
                 </div>
 
               </section>
@@ -124,9 +128,9 @@ class DetailedRestaurant extends Component {
                       <input id='rating' name='rating' className='form-control' type='number' min={0} max={5}
                              placeholder='Rate this place between 0 and 5' required/>
                     </div>
-                    <div className='form-group'>
-                      <Button bsStyle='success' type='submit'>Add review</Button>
-                      <Button bsStyle='danger' onClick={::this.closeModal}>Cancel</Button>
+                    <div className='form-group text-right'>
+                      <Button bsStyle='link' onClick={::this.closeModal}>Cancel</Button>
+                      <Button bsStyle='primary' type='submit'>Add review</Button>
                     </div>
                   </form>
                 </Modal.Body>

@@ -1,3 +1,5 @@
+@import "variables";
+
 body {
   font-family: 'Ubuntu', sans-serif;
 }
@@ -5,5 +7,13 @@ body {
 .panel-heading {
   &_header {
     margin-top: 0;
+  }
+}
+
+blockquote footer {
+  color: $brand-primary;
+
+  &:before {
+    content: '';
   }
 }

@@ -8,17 +8,20 @@ class WorkingHours extends Component {
 
     let weekdaysTemplate;
 
-    let dayInd = (new Date()).getDay();
-
-    dayInd -= 1;
+    let dayInd = (new Date()).getDay() - 1;
 
     dayInd = dayInd < 0 ? 6 : dayInd;
 
     weekdaysTemplate = weekdayText.map((text, ind) => {
-      let appendClass = dayInd === ind ? 'hours-item_active' : '';
+      let appendClass = dayInd === ind ? 'hours-item_active' : '',
+        textArr = text.split(': '),
+        day = textArr[0],
+        hours = textArr[1];
+
       return (
         <div key={ind} className={`hours-list__item hours-item ${appendClass}`}>
-          <p className='hours-item__text'>{text}</p>
+          <h4 className='hours-item__day'>{day}</h4>
+          <p className='hours-item__day'>{hours}</p>
         </div>
       )
 

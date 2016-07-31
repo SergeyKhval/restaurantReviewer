@@ -8,6 +8,7 @@
 .hours-list {
   display: flex;
   justify-content: space-between;
+  overflow-x: scroll;
 
   &__item {
     margin-right: 0.5rem;
@@ -20,6 +21,10 @@
 
 .hours-item {
   text-align: center;
+
+  flex-shrink: 0;
+
+  padding: 0.5rem;
 
   &__text {
   }
