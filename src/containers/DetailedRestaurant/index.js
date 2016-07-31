@@ -3,9 +3,9 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {Button, Modal} from 'react-bootstrap';
-import Review from '../Review';
-import WorkingHours from '../WorkingHours';
-import StarRating from '../StarRating';
+import Review from '../../components/Review';
+import WorkingHours from '../../components/WorkingHours';
+import StarRating from '../../components/StarRating';
 import * as actions from '../../actions/detailedRestaurantActions';
 
 //Component styles
