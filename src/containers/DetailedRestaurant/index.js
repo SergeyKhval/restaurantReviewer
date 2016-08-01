@@ -6,6 +6,7 @@ import {Button, Modal} from 'react-bootstrap';
 import Review from '../../components/Review';
 import WorkingHours from '../../components/WorkingHours';
 import StarRating from '../../components/StarRating';
+import Footer from '../../components/Footer';
 import * as actions from '../../actions/detailedRestaurantActions';
 
 //Component styles
@@ -137,6 +138,7 @@ class DetailedRestaurant extends Component {
               </Modal>
             </div>
           </div>
+          <Footer/>
         </div>
       </div>
 

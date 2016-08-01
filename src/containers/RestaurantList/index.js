@@ -19,6 +19,10 @@ class RestaurantList extends Component {
 
   }
 
+  // componentWillMount() {
+  //   this.props.pageActions.setCity(this.props.params.cityId);
+  // }
+
   render() {
     const {restaurants, pagination} = this.props;
     const {setRestaurant, setCity} = this.props.pageActions;
