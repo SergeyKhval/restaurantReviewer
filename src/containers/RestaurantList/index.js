@@ -5,6 +5,7 @@ import {connect} from 'react-redux';
 import * as pageActions from '../../actions/pageActions';
 
 import Restaurant from '../../components/Restaurant';
+import Footer from '../../components/Footer';
 
 import './style.scss';
 
@@ -63,6 +64,7 @@ class RestaurantList extends Component {
             </button>
           </div>
         </div>
+        <Footer/>
       </div>
 
     )
