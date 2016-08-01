@@ -9,16 +9,20 @@ import Restaurant from '../../components/Restaurant';
 import './style.scss';
 
 class RestaurantList extends Component {
+  handleMoreClick() {
+    let {pagination} = this.props;
+
+    if (pagination.hasNextPage) {
+      pagination.nextPage();
+    }
+
+  }
+
   render() {
-    const {restaurants} = this.props.city;
+    const {restaurants, pagination} = this.props;
     const {setRestaurant, setCity} = this.props.pageActions;
 
     const types = ['(cities)'];
-
-    let sortedRestaurants = restaurants
-      .sort((a, b) => {
-        return parseFloat(b.rating) - parseFloat(a.rating);
-      });
 
     return (
       <div className='container'>
@@ -39,19 +43,25 @@ class RestaurantList extends Component {
               <div className='collapse navbar-collapse' id='bs-example-navbar-collapse-1'>
                 <form className='navbar-form navbar-left'>
                   <div className='form-group'>
-                    <Geosuggest className='geosuggest_unstyled' types={types} onSuggestSelect={setCity} />
+                    <Geosuggest className='geosuggest_unstyled' types={types} onSuggestSelect={setCity}/>
                   </div>
                 </form>
               </div>
             </div>
           </nav>
-          {sortedRestaurants.map(restaurant => {
+          {restaurants.map(restaurant => {
             return (
               <div key={restaurant.id} className='col-md-4'>
                 <Restaurant restaurant={restaurant} setRestaurant={setRestaurant}/>
               </div>
             )
           })}
+
+          <div className='col-xs-12'>
+            <button className='btn btn-primary' onClick={::this.handleMoreClick} disabled={!pagination.hasNextPage}>Load
+              more
+            </button>
+          </div>
         </div>
       </div>
 
@@ -61,7 +71,8 @@ class RestaurantList extends Component {
 
 function mapStateToProps(state) {
   return {
-    city: state.city
+    restaurants: state.city.restaurants,
+    pagination: state.city.pagination
   }
 }
 

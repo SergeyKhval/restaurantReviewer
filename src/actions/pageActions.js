@@ -17,14 +17,17 @@ export function setCity(city) {
   return (dispatch) => {
     dispatch({
       type: SET_CITY,
-      payload: city
+      payload: {
+        city: city,
+        restaurants: []
+      }
     });
 
-    GOOGLE_PLACE_SERVICE.nearbySearch(request, function (results, status) {
+    GOOGLE_PLACE_SERVICE.nearbySearch(request, function (results, status, pagination) {
       if (status == google.maps.places.PlacesServiceStatus.OK) {
         dispatch({
           type: SET_RESTAURANTS,
-          payload: results.filter(r => !!r.rating && r.types.indexOf('lodging') < 0)
+          payload: {results: results.filter(r => !!r.rating && r.types.indexOf('lodging') < 0), pagination: pagination}
         });
 
         dispatch({

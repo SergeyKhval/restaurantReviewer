@@ -13,15 +13,17 @@ export default function (state = initialState, action) {
     case SET_CITY:
       return {
         ...state,
-        name: action.payload.label,
-        id: action.payload.placeId,
-        lat: action.payload.location.lat,
-        lng: action.payload.location.lng
+        name: action.payload.city.label,
+        id: action.payload.city.placeId,
+        lat: action.payload.city.location.lat,
+        lng: action.payload.city.location.lng,
+        restaurants: action.payload.restaurants
       };
     case SET_RESTAURANTS:
       return {
         ...state,
-        restaurants: action.payload
+        restaurants: [...state.restaurants, ...action.payload.results],
+        pagination: action.payload.pagination
       };
     default:
       return state;
