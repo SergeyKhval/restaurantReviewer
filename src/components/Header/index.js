@@ -1,4 +1,4 @@
-import React, {Component} from 'react'
+import React, {Component, ProppTypes} from 'react'
 import Geosuggest from 'react-geosuggest';
 
 class Header extends Component {
@@ -31,5 +31,9 @@ class Header extends Component {
     )
   }
 }
+
+Header.propTypes = {
+  setCity: ProppTypes.func.isRequired
+};
 
 export default Header;

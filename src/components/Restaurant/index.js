@@ -33,7 +33,8 @@ class Restaurant extends Component {
 }
 
 Restaurant.propTypes = {
-  restaurant: PropTypes.object.isRequired
+  restaurant: PropTypes.object.isRequired,
+  setRestaurant: PropTypes.func.isRequired
 };
 
 export default Restaurant;
