@@ -1,20 +1,23 @@
 import {SET_CITY, SET_RESTAURANTS} from '../constants/cities';
-import {SET_RESTAURANT} from '../constants/restaurant';
+import {SET_RESTAURANT, SET_PLACE_TYPE} from '../constants/restaurant';
 import {REDIRECT} from '../constants/redirect';
 
+//Google waits for DOM node as an argument for PlacesService() method
+//We will create dummy node without actually rendering a map
 const GOOGLE_PLACE_SERVICE = new google.maps.places.PlacesService(new google.maps.Map(document.createElement('div')));
 
 export function setCity(city) {
-  //Google waits for DOM node as an argument for PlacesService() method
-  //We will create dummy node without actually rendering a map
-  let location = new google.maps.LatLng(city.location.lat, city.location.lng),
-    request = {
-      location: location,
-      radius: '5000',
-      types: ['restaurant', 'cafe', 'bar']
-    };
 
-  return (dispatch) => {
+
+  return (dispatch, getState) => {
+    let placeType = getState().ui.placeType,
+      location = new google.maps.LatLng(city.location.lat, city.location.lng),
+      request = {
+        location: location,
+        radius: '5000',
+        type: placeType
+      };
+
     dispatch({
       type: SET_CITY,
       payload: {
@@ -70,5 +73,14 @@ export function setRestaurant(id) {
     });
 
 
+  }
+}
+
+export function setPlaceType(type) {
+  return dispatch => {
+    dispatch({
+      type: SET_PLACE_TYPE,
+      payload: type
+    })
   }
 }

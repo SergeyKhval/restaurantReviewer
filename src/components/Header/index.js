@@ -1,4 +1,4 @@
-import React, {Component, ProppTypes} from 'react'
+import React, {Component, PropTypes} from 'react'
 import Geosuggest from 'react-geosuggest';
 
 class Header extends Component {
@@ -25,6 +25,22 @@ class Header extends Component {
                 <Geosuggest className='geosuggest_unstyled' types={types} onSuggestSelect={this.props.setCity}/>
               </div>
             </form>
+            <ul className='nav navbar-nav'>
+              <li>
+                <div className='btn-group' data-toggle='buttons'>
+                  <label className='btn btn-primary active'>
+                    <input type='radio' name='options' id='option1' autocomplete='off' checked/> Restaurant
+                  </label>
+                  <label className='btn btn-primary'>
+                    <input type='radio' name='options' id='option2' autocomplete='off'/> Cafe
+                  </label>
+                  <label className='btn btn-primary'>
+                    <input type='radio' name='options' id='option3' autocomplete='off'/> Bar
+                  </label>
+                </div>
+              </li>
+            </ul>
+
           </div>
         </div>
       </nav>
@@ -33,7 +49,7 @@ class Header extends Component {
 }
 
 Header.propTypes = {
-  setCity: ProppTypes.func.isRequired
+  setCity: PropTypes.func.isRequired
 };
 
 export default Header;
