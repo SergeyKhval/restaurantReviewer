@@ -25,8 +25,8 @@ class RestaurantList extends Component {
   // }
 
   render() {
-    const {restaurants, pagination} = this.props;
-    const {setRestaurant, setCity} = this.props.pageActions;
+    const {restaurants, pagination} = this.props.city;
+    const {setRestaurant, setCity, setPlaceType} = this.props.pageActions;
 
     let restaurantsTemplate = restaurants.map(restaurant => {
       return (
@@ -38,7 +38,7 @@ class RestaurantList extends Component {
     return (
       <div className='container'>
         <div className='row'>
-          <Header setCity={setCity}/>
+          <Header setCity={setCity} setPlaceType={setPlaceType}/>
           {restaurantsTemplate}
           <div className='col-xs-12'>
             <button className='btn btn-primary' onClick={::this.handleMoreClick} disabled={!pagination.hasNextPage}>Load
@@ -55,8 +55,7 @@ class RestaurantList extends Component {
 
 function mapStateToProps(state) {
   return {
-    restaurants: state.city.restaurants,
-    pagination: state.city.pagination
+    city: state.city
   }
 }
 

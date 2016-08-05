@@ -2,6 +2,11 @@ import React, {Component, PropTypes} from 'react'
 import Geosuggest from 'react-geosuggest';
 
 class Header extends Component {
+  handleChange(e) {
+    this.props.setPlaceType(e.target.value);
+    this.props.setCity(this.props.city);
+  }
+
   render() {
     const types = ['(cities)'];
 
@@ -27,17 +32,18 @@ class Header extends Component {
             </form>
             <ul className='nav navbar-nav'>
               <li>
-                <div className='btn-group' data-toggle='buttons'>
-                  <label className='btn btn-primary active'>
-                    <input type='radio' name='options' id='option1' autocomplete='off' checked/> Restaurant
-                  </label>
-                  <label className='btn btn-primary'>
-                    <input type='radio' name='options' id='option2' autocomplete='off'/> Cafe
-                  </label>
-                  <label className='btn btn-primary'>
-                    <input type='radio' name='options' id='option3' autocomplete='off'/> Bar
-                  </label>
-                </div>
+                <label className='radio-inline'>
+                  <input type='radio' name='inlineRadioOptions' id='inlineRadio1' value='restaurant'
+                         onChange={::this.handleChange}/> Restaurants
+                </label>
+                <label className='radio-inline'>
+                  <input type='radio' name='inlineRadioOptions' id='inlineRadio2' value='cafe'
+                         onChange={::this.handleChange}/> Cafes
+                </label>
+                <label className='radio-inline'>
+                  <input type='radio' name='inlineRadioOptions' id='inlineRadio3' value='bar'
+                         onChange={::this.handleChange}/> Bars
+                </label>
               </li>
             </ul>
 
@@ -49,7 +55,8 @@ class Header extends Component {
 }
 
 Header.propTypes = {
-  setCity: PropTypes.func.isRequired
+  setCity: PropTypes.func.isRequired,
+  setPlaceType: PropTypes.func.isRequired
 };
 
 export default Header;

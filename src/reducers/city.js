@@ -2,10 +2,7 @@ import {SET_CITY, SET_RESTAURANTS} from '../constants/cities';
 import {SET_PLACE_TYPE} from '../constants/restaurant';
 
 const initialState = {
-  id: '',
-  name: '',
-  lat: 0,
-  lng: 0,
+  city: {},
   restaurants: []
 };
 
@@ -14,10 +11,7 @@ export default function (state = initialState, action) {
     case SET_CITY:
       return {
         ...state,
-        name: action.payload.city.label,
-        id: action.payload.city.placeId,
-        lat: action.payload.city.location.lat,
-        lng: action.payload.city.location.lng,
+        city: action.payload.city,
         restaurants: action.payload.restaurants
       };
     case SET_PLACE_TYPE:

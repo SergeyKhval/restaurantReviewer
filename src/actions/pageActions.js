@@ -7,7 +7,7 @@ import {REDIRECT} from '../constants/redirect';
 const GOOGLE_PLACE_SERVICE = new google.maps.places.PlacesService(new google.maps.Map(document.createElement('div')));
 
 export function setCity(city) {
-
+  console.log('setting city');
 
   return (dispatch, getState) => {
     let placeType = getState().ui.placeType,
@@ -17,6 +17,8 @@ export function setCity(city) {
         radius: '5000',
         type: placeType
       };
+
+    console.log(`Place type: ${placeType}`);
 
     dispatch({
       type: SET_CITY,
@@ -77,10 +79,10 @@ export function setRestaurant(id) {
 }
 
 export function setPlaceType(type) {
-  return dispatch => {
+  return (dispatch) => {
     dispatch({
       type: SET_PLACE_TYPE,
       payload: type
-    })
+    });
   }
 }
