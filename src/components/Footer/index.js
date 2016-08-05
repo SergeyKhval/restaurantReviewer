@@ -22,11 +22,11 @@ class Footer extends Component {
             <li><a href='mailto:sergeykhval@gmail.com'>Contact us</a></li>
           </ul>
         </div>
-        <col-md-3>
+        <div className='col-md-3'>
           <ul className='nav nav-pills nav-stacked'>
             <li><a href='https://google.com'><img src={img} alt='Google'/></a></li>
           </ul>
-        </col-md-3>
+        </div>
       </footer>
     )
   }
