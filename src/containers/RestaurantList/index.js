@@ -25,7 +25,7 @@ class RestaurantList extends Component {
 
   render() {
     const {restaurants, pagination} = this.props.restaurantList;
-    const {setRestaurant, setCity, setPlaceType} = this.props.pageActions;
+    const {setRestaurant, setPlaceType, fetchRestaurants, setCity} = this.props.pageActions;
 
     let restaurantsTemplate = restaurants.map(restaurant => {
       return (
@@ -36,8 +36,8 @@ class RestaurantList extends Component {
 
     return (
       <div className='container'>
+        <Header fetchRestaurants={fetchRestaurants} setPlaceType={setPlaceType} setCity={setCity}/>
         <div className='row'>
-          <Header setCity={setCity} setPlaceType={setPlaceType}/>
           {restaurantsTemplate}
           <div className='col-xs-12'>
             <button className='btn btn-primary' onClick={::this.handleMoreClick} disabled={!pagination.hasNextPage}>Load
