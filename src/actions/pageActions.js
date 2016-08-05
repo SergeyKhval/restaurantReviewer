@@ -1,4 +1,4 @@
-import {SET_CITY, SET_RESTAURANTS} from '../constants/cities';
+import {SET_CITY, FETCH_RESTAURANTS} from '../constants/cities';
 import {SET_RESTAURANT, SET_PLACE_TYPE} from '../constants/restaurant';
 import {REDIRECT} from '../constants/redirect';
 
@@ -7,10 +7,27 @@ import {REDIRECT} from '../constants/redirect';
 const GOOGLE_PLACE_SERVICE = new google.maps.places.PlacesService(new google.maps.Map(document.createElement('div')));
 
 export function setCity(city) {
-  console.log('setting city');
+  return (dispatch) => {
+    dispatch({
+      type: SET_CITY,
+      payload: city
+    });
 
+    dispatch({
+      type: REDIRECT,
+      payload: {
+        method: 'push',
+        nextUrl: `/city/${city.placeId}/restaurants`
+      }
+    });
+  }
+}
+
+export function fetchRestaurants() {
   return (dispatch, getState) => {
-    let placeType = getState().ui.placeType,
+    let state = getState(),
+      placeType = state.ui.placeType,
+      city = state.city,
       location = new google.maps.LatLng(city.location.lat, city.location.lng),
       request = {
         location: location,
@@ -18,28 +35,13 @@ export function setCity(city) {
         type: placeType
       };
 
-    console.log(`Place type: ${placeType}`);
-
-    dispatch({
-      type: SET_CITY,
-      payload: {
-        city: city,
-        restaurants: []
-      }
-    });
-
     GOOGLE_PLACE_SERVICE.nearbySearch(request, function (results, status, pagination) {
       if (status == google.maps.places.PlacesServiceStatus.OK) {
         dispatch({
-          type: SET_RESTAURANTS,
-          payload: {results: results.filter(r => !!r.rating && r.types.indexOf('lodging') < 0), pagination: pagination}
-        });
-
-        dispatch({
-          type: REDIRECT,
+          type: FETCH_RESTAURANTS,
           payload: {
-            method: 'push',
-            nextUrl: `/city/${city.placeId}/restaurants`
+            results: results.filter(r => !!r.rating && r.types.indexOf('lodging') < 0),
+            pagination: pagination
           }
         });
       }
@@ -73,8 +75,6 @@ export function setRestaurant(id) {
         console.log('Error with google places API');
       }
     });
-
-
   }
 }
 

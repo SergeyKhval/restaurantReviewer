@@ -12,20 +12,19 @@ import './style.scss';
 
 class RestaurantList extends Component {
   handleMoreClick() {
-    let {pagination} = this.props;
+    let {pagination} = this.props.restaurantList;
 
     if (pagination.hasNextPage) {
       pagination.nextPage();
     }
-
   }
 
-  // componentWillMount() {
-  //   this.props.pageActions.setCity(this.props.params.cityId);
-  // }
+  componentWillMount() {
+    this.props.pageActions.fetchRestaurants();
+  }
 
   render() {
-    const {restaurants, pagination} = this.props.city;
+    const {restaurants, pagination} = this.props.restaurantList;
     const {setRestaurant, setCity, setPlaceType} = this.props.pageActions;
 
     let restaurantsTemplate = restaurants.map(restaurant => {
@@ -55,7 +54,7 @@ class RestaurantList extends Component {
 
 function mapStateToProps(state) {
   return {
-    city: state.city
+    restaurantList: state.restaurantList
   }
 }
 
@@ -66,7 +65,7 @@ function mapDispatchToProps(dispatch) {
 }
 
 RestaurantList.propTypes = {
-  city: PropTypes.object.isRequired
+  restaurantList: PropTypes.object.isRequired
 };
 
 export default  connect(mapStateToProps, mapDispatchToProps)(RestaurantList);
