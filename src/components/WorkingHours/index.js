@@ -12,20 +12,23 @@ class WorkingHours extends Component {
 
     dayInd = dayInd < 0 ? 6 : dayInd;
 
-    weekdaysTemplate = weekdayText.map((text, ind) => {
-      let appendClass = dayInd === ind ? 'hours-item_active' : '',
-        textArr = text.split(': '),
-        day = textArr[0],
-        hours = textArr[1];
+    if (weekdayText.length) {
+      weekdaysTemplate = weekdayText.map((text, ind) => {
+        let appendClass = dayInd === ind ? 'hours-item_active' : '',
+          textArr = text.split(': '),
+          day = textArr[0],
+          hours = textArr[1];
 
-      return (
-        <div key={ind} className={`hours-list__item hours-item ${appendClass}`}>
-          <h4 className='hours-item__day'>{day}</h4>
-          <p className='hours-item__day'>{hours}</p>
-        </div>
-      )
+        return (
+          <div key={ind} className={`hours-list__item hours-item ${appendClass}`}>
+            <h4 className='hours-item__day'>{day}</h4>
+            <p className='hours-item__day'>{hours}</p>
+          </div>
+        )
 
-    });
+      });
+    }
+
 
     return (
       <div className='hours-list'>

@@ -8,6 +8,7 @@ import WorkingHours from '../../components/WorkingHours';
 import StarRating from '../../components/StarRating';
 import Footer from '../../components/Footer';
 import * as actions from '../../actions/detailedRestaurantActions';
+import * as pageActions from '../../actions/pageActions';
 
 //Component styles
 import './style.scss';
@@ -15,6 +16,7 @@ import './style.scss';
 class DetailedRestaurant extends Component {
   componentWillMount() {
     window.scrollTo(0, 0);
+    this.props.pageActions.setRestaurant(this.props.params.restaurantId);
     this.props.actions.getReviews(this.props.params.restaurantId);
   }
 
@@ -44,9 +46,10 @@ class DetailedRestaurant extends Component {
     const {firebaseReviews} = this.props;
 
     let headPhoto = photos ? photos[0].getUrl({'maxWidth': 1200}) : '',
-      firebaseReviewsTemplate;
+      firebaseReviewsTemplate,
+      reviewsTemplate;
 
-    if (firebaseReviews) {
+    if (Object.keys(firebaseReviews).length) {
       firebaseReviewsTemplate = Object.keys(firebaseReviews).map((key, index) => {
         let review = firebaseReviews[key];
         return (
@@ -55,13 +58,15 @@ class DetailedRestaurant extends Component {
       });
     }
 
+    if (reviews.length) {
+      reviewsTemplate = reviews.map((review, index) => {
+        return (
+          <Review key={index} author={review.author_name} text={review.text} rating={+review.rating}
+                  date={review.time * 1000}/>
+        )
+      });
+    }
 
-    let reviewsTemplate = reviews.map((review, index) => {
-      return (
-        <Review key={index} author={review.author_name} text={review.text} rating={review.rating}
-                date={review.time * 1000}/>
-      )
-    });
 
     return (
       <div>
@@ -96,7 +101,7 @@ class DetailedRestaurant extends Component {
                   Working hours
                 </h2>
                 <div className='panel-body'>
-                  <WorkingHours weekdayText={weekday_text}/>
+                  <WorkingHours weekdayText={weekday_text ? weekday_text : []}/>
                 </div>
               </section>
               <section className='panel panel-primary'>
@@ -156,7 +161,8 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    actions: bindActionCreators(actions, dispatch)
+    actions: bindActionCreators(actions, dispatch),
+    pageActions: bindActionCreators(pageActions, dispatch)
   }
 }
 

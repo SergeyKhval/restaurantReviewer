@@ -1,6 +1,12 @@
 import {SET_RESTAURANT, TOGGLE_REVIEW_MODAL} from '../constants/restaurant';
 
-const initialState = {};
+const initialState = {
+  restaurant: {
+    opening_hours: {},
+    reviews: []
+  },
+  reviews: {}
+};
 
 export default function (state = initialState, action) {
   switch (action.type) {
