@@ -19,12 +19,27 @@ class RestaurantList extends Component {
     }
   }
 
+  getCityTitle(components) {
+    if (components.length) {
+      let [title] = components.filter(component => {
+        return component.types.indexOf('locality') > -1;
+      });
+
+      return title;
+    } else {
+      return '';
+    }
+
+  }
+
   componentWillMount() {
-    this.props.pageActions.fetchRestaurants();
+    this.props.pageActions.fetchCityInfo(this.props.params.cityId);
+    this.props.pageActions.fetchRestaurants(this.props.params.cityId);
   }
 
   render() {
     const {restaurants, pagination} = this.props.restaurantList;
+    const {address_components} = this.props.city;
     const {setRestaurant, setPlaceType, fetchRestaurants, setCity} = this.props.pageActions;
 
     let restaurantsTemplate = restaurants.map(restaurant => {
@@ -33,18 +48,22 @@ class RestaurantList extends Component {
       )
     });
 
+    let place = this.getCityTitle(address_components);
 
     return (
       <div className='container'>
         <Header fetchRestaurants={fetchRestaurants} setPlaceType={setPlaceType} setCity={setCity}/>
-        <div className='row'>
+        <section className='row'>
+          <div className='col-xs-12'>
+            <h1>Places in {place.long_name}</h1>
+          </div>
           {restaurantsTemplate}
           <div className='col-xs-12'>
             <button className='btn btn-primary' onClick={::this.handleMoreClick} disabled={!pagination.hasNextPage}>Load
               more
             </button>
           </div>
-        </div>
+        </section>
         <Footer/>
       </div>
 
@@ -54,7 +73,8 @@ class RestaurantList extends Component {
 
 function mapStateToProps(state) {
   return {
-    restaurantList: state.restaurantList
+    restaurantList: state.restaurantList,
+    city: state.city
   }
 }
 

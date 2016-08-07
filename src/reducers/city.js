@@ -1,10 +1,17 @@
-import {SET_CITY} from '../constants/cities';
+import {SET_CITY, FETCH_CITY} from '../constants/cities';
 
-const initialState = {};
+const initialState = {
+  address_components: []
+};
 
 export default function (state = initialState, action) {
   switch (action.type) {
     case SET_CITY:
+      return {
+        ...state,
+        id: action.payload.placeId
+      };
+    case FETCH_CITY:
       return {
         ...state,
         ...action.payload
