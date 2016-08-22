@@ -53,10 +53,11 @@ class DetailedRestaurant extends Component {
       firebaseReviewsTemplate = Object.keys(firebaseReviews).map((key, index) => {
         let review = firebaseReviews[key];
         return (
-          <Review key={index} text={review.review} rating={review.rating} author={review.author} date={review.date}/>
+          <Review key={index} text={review.review} rating={+review.rating} author={review.author} date={review.date}/>
         )
       });
     }
+
 
     if (reviews.length) {
       reviewsTemplate = reviews.map((review, index) => {
@@ -88,7 +89,7 @@ class DetailedRestaurant extends Component {
                 </a>
               </p>
               <div className='restaurant-heading__rating'>
-                <StarRating rating={rating}/>
+                <StarRating rating={+rating}/>
               </div>
             </div>
           </div>
@@ -115,8 +116,8 @@ class DetailedRestaurant extends Component {
                 </div>
 
               </section>
-              <Modal show={reviewModalOpen}>
-                <Modal.Header>Add your review</Modal.Header>
+              <Modal show={reviewModalOpen} autoFocus={true} enforceFocus={true}>
+                <Modal.Header closeButton={true} onHide={::this.closeModal}>Add your review</Modal.Header>
                 <Modal.Body>
                   <form onSubmit={::this.addReview}>
                     <div className='form-group'>

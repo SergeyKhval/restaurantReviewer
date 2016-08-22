@@ -17,7 +17,7 @@ render(
     <Router history={browserHistory}>
       <Route path='/' component={Home}/>
       <Route path='/city/:cityId/restaurants' component={RestaurantList}/>
-      <Route path='/city/:cityId/restaurants/:restaurantId' component={DetailedRestaurant}/>
+      <Route path='/restaurants/:restaurantId' component={DetailedRestaurant}/>
     </Router>
   </Provider>
   ,

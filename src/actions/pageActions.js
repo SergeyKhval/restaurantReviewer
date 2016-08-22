@@ -85,9 +85,7 @@ export function setRestaurant(id) {
     placeId: id
   };
 
-  return (dispatch, getState) => {
-    let cityId = getState().city.placeId;
-
+  return (dispatch) => {
     GOOGLE_PLACE_SERVICE.getDetails(request, (place, status) => {
       if (status == google.maps.places.PlacesServiceStatus.OK) {
         dispatch({
@@ -99,7 +97,7 @@ export function setRestaurant(id) {
           type: REDIRECT,
           payload: {
             method: 'push',
-            nextUrl: `/city/${cityId}/restaurants/${id}`
+            nextUrl: `/restaurants/${id}`
           }
         });
       } else {
