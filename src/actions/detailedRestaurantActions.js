@@ -19,7 +19,7 @@ export function getReviews(restaurantId) {
     Reviews.on('value', snapshot => {
       dispatch({
         type: 'GET_FIREBASE_REVIEWS',
-        payload: snapshot.val()
+        payload: snapshot.val() || {}
       })
     })
   }

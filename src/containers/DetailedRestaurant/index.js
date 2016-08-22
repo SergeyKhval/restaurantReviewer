@@ -41,7 +41,7 @@ class DetailedRestaurant extends Component {
 
   render() {
     const {name, photos, reviews, website, formatted_address, formatted_phone_number, rating} = this.props.restaurant;
-    const {weekday_text} = this.props.restaurant.opening_hours;
+    const {weekday_text} = this.props.restaurant.opening_hours ? this.props.restaurant.opening_hours : {};
     const {reviewModalOpen} = this.props;
     const {firebaseReviews} = this.props;
 

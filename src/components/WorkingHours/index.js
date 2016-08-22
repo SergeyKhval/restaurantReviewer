@@ -27,6 +27,8 @@ class WorkingHours extends Component {
         )
 
       });
+    } else {
+      weekdaysTemplate = (<p className='lead'>Working hours unavailable</p>)
     }
 
 
