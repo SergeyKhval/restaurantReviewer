@@ -1,4 +1,4 @@
-import {SET_CITY, FETCH_CITY, FETCH_RESTAURANTS} from '../constants/cities';
+import {SET_CITY, FETCH_CITY, FETCH_RESTAURANTS, CLEAR_RESTAURANTS} from '../constants/cities';
 import {SET_RESTAURANT, SET_PLACE_TYPE} from '../constants/restaurant';
 import {REDIRECT} from '../constants/redirect';
 
@@ -77,6 +77,14 @@ export function fetchRestaurants(cityId = null) {
     });
 
 
+  }
+}
+
+export function clearRestaurants() {
+  return dispatch => {
+    dispatch({
+      type: CLEAR_RESTAURANTS
+    })
   }
 }
 

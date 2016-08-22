@@ -1,4 +1,4 @@
-import {SET_CITY, FETCH_RESTAURANTS} from '../constants/cities';
+import {SET_CITY, FETCH_RESTAURANTS, CLEAR_RESTAURANTS} from '../constants/cities';
 import {SET_PLACE_TYPE} from '../constants/restaurant';
 
 const initialState = {
@@ -20,6 +20,11 @@ export default function (state = initialState, action) {
         ...state,
         restaurants: [...state.restaurants, ...action.payload.results],
         pagination: action.payload.pagination
+      };
+    case CLEAR_RESTAURANTS:
+      return {
+        restaurants: [],
+        pagination: {}
       };
     default:
       return state;

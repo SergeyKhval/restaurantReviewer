@@ -19,13 +19,12 @@ class RestaurantList extends Component {
     }
   }
 
+
   getCityTitle(components) {
     if (components.length) {
-      let [title] = components.filter(component => {
+      return components.filter(component => {
         return component.types.indexOf('locality') > -1;
-      });
-
-      return title;
+      }).shift();
     } else {
       return '';
     }
@@ -33,6 +32,8 @@ class RestaurantList extends Component {
   }
 
   componentWillMount() {
+    //currently I can not come up with anything better than simply clearing restaurant list at every component mount
+    this.props.pageActions.clearRestaurants();
     this.props.pageActions.fetchCityInfo(this.props.params.cityId);
     this.props.pageActions.fetchRestaurants(this.props.params.cityId);
   }
