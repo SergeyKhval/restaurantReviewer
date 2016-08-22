@@ -4,7 +4,8 @@
   "description": "Project for Udacity nanodegree programm",
   "main": "index.js",
   "scripts": {
-    "start": "node bin/server.js"
+    "start": "node bin/server.js",
+    "build": "rimraf dist && NODE_ENV=production webpack --progress --verbose --display-error-details --config webpack/common.config.js"
   },
   "author": "Sergey Khval",
   "license": "MIT",

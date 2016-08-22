@@ -46,6 +46,9 @@ const common = {
       test: /bootstrap-sass\/assets\/javascripts\//,
       loader: 'imports?jQuery=jquery',
     }, {
+      test: /\.scss$/,
+      loader: 'style!css?localIdentName=[path][name]--[local]!postcss-loader!sass!sass-resources',
+    }, {
       test: /\.woff(\?v=\d+\.\d+\.\d+)?$/,
       loader: 'url?limit=10000&mimetype=application/font-woff',
     }, {
@@ -75,6 +78,8 @@ const common = {
       loader: 'file?name=[name].[ext]',
     }],
   },
+
+  sassResources: ['./src/styles/variables.scss', './src/styles/sass-resources.scss'],
 
   postcss: (webpack) => {
     return [
