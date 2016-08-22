@@ -98,7 +98,7 @@ class DetailedRestaurant extends Component {
           <div className='row'>
             <div className='col-xs-12'>
               <section className='panel panel-primary'>
-                <h2 className='panel-heading panel-heading_header'>
+                <h2 className='panel-heading panel-heading_header' tabIndex='0'>
                   Working hours
                 </h2>
                 <div className='panel-body'>
@@ -106,7 +106,7 @@ class DetailedRestaurant extends Component {
                 </div>
               </section>
               <section className='panel panel-primary'>
-                <h2 className='panel-heading panel-heading_header'>
+                <h2 className='panel-heading panel-heading_header' tabIndex='0'>
                   Reviews
                 </h2>
                 <div className='panel-body'>
@@ -116,7 +116,8 @@ class DetailedRestaurant extends Component {
                 </div>
 
               </section>
-              <Modal show={reviewModalOpen} autoFocus={true} enforceFocus={true}>
+              <Modal show={reviewModalOpen} autoFocus={true} enforceFocus={true} keyboard={true} backdrop={true}
+                     onHide={::this.closeModal}>
                 <Modal.Header closeButton={true} onHide={::this.closeModal}>Add your review</Modal.Header>
                 <Modal.Body>
                   <form onSubmit={::this.addReview}>
