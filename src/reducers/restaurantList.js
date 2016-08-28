@@ -4,7 +4,9 @@ import {SET_PLACE_TYPE} from '../constants/restaurant';
 const initialState = {
   restaurants: [],
   pagination: {},
-  placeType: 'restaurant'
+  placeType: 'restaurant',
+  rankBy: 'distance',
+  openNow: false
 };
 
 export default function (state = initialState, action) {

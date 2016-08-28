@@ -9,7 +9,7 @@ export default function (state = initialState, action) {
     case SET_CITY:
       return {
         ...state,
-        id: action.payload.placeId
+        place_id: action.payload.placeId
       };
     case FETCH_CITY:
       return {

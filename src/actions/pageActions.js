@@ -44,8 +44,11 @@ export function fetchCityInfo(cityId) {
 
 export function fetchRestaurants(cityId = null) {
   return (dispatch, getState) => {
-    let state = getState(),
-      placeType = state.restaurantList.placeType,
+    let state = getState();
+
+    let placeType = state.restaurantList.placeType,
+      openNow = state.restaurantList.openNow,
+      rankby = state.restaurantList.rankBy,
       cityPlaceId = cityId || state.city.place_id;
 
     let cityDetailsRequest = {
@@ -58,8 +61,12 @@ export function fetchRestaurants(cityId = null) {
           request = {
             location: location,
             radius: '25000',
-            type: placeType
+            type: placeType,
+            rankby,
+            opennow: openNow ? true : null
           };
+
+        console.log(request);
 
         GOOGLE_PLACE_SERVICE.nearbySearch(request, function (results, status, pagination) {
           if (status == google.maps.places.PlacesServiceStatus.OK) {

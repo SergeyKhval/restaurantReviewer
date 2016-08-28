@@ -4,6 +4,9 @@ import StarRating from '../StarRating';
 //component styles
 import './style.scss';
 
+//images
+const placeholder = require('../../assets/image-not-found-4a963b95bf081c3ea02923dceaeb3f8085e1a654fc54840aac61a57a60903fef.png');
+
 class Restaurant extends Component {
   handleClick(e) {
     e.preventDefault();
@@ -12,7 +15,7 @@ class Restaurant extends Component {
 
   render() {
     const {restaurant} = this.props;
-    let imgUrl = restaurant.photos ? restaurant.photos[0].getUrl({'maxWidth': 350}) : '';
+    let imgUrl = restaurant.photos ? restaurant.photos[0].getUrl({'maxWidth': 350}) : placeholder;
 
     return (
       <div className='col-md-4'>
