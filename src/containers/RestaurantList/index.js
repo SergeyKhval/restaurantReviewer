@@ -19,16 +19,8 @@ class RestaurantList extends Component {
     }
   }
 
-
   getCityTitle(components) {
-    if (components.length) {
-      return components.filter(component => {
-        return component.types.indexOf('locality') > -1;
-      }).shift();
-    } else {
-      return '';
-    }
-
+    return components.length ? components.filter(component => component.types.indexOf('locality') > -1).shift() : '';
   }
 
   componentWillMount() {

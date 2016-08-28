@@ -3,7 +3,8 @@ import {SET_PLACE_TYPE} from '../constants/restaurant';
 
 const initialState = {
   restaurants: [],
-  pagination: {}
+  pagination: {},
+  placeType: 'restaurant'
 };
 
 export default function (state = initialState, action) {
@@ -14,7 +15,7 @@ export default function (state = initialState, action) {
         restaurants: []
       };
     case SET_PLACE_TYPE:
-      return {...state, restaurants: []};
+      return {...state, restaurants: [], placeType: action.payload};
     case FETCH_RESTAURANTS:
       return {
         ...state,
@@ -23,6 +24,7 @@ export default function (state = initialState, action) {
       };
     case CLEAR_RESTAURANTS:
       return {
+        ...state,
         restaurants: [],
         pagination: {}
       };

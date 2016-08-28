@@ -45,8 +45,8 @@ export function fetchCityInfo(cityId) {
 export function fetchRestaurants(cityId = null) {
   return (dispatch, getState) => {
     let state = getState(),
-      placeType = state.ui.placeType,
-      cityPlaceId = cityId || state.city.id;
+      placeType = state.restaurantList.placeType,
+      cityPlaceId = cityId || state.city.place_id;
 
     let cityDetailsRequest = {
       placeId: cityPlaceId
@@ -57,7 +57,7 @@ export function fetchRestaurants(cityId = null) {
         let location = new google.maps.LatLng(place.geometry.location.lat(), place.geometry.location.lng()),
           request = {
             location: location,
-            radius: '5000',
+            radius: '25000',
             type: placeType
           };
 
@@ -70,8 +70,12 @@ export function fetchRestaurants(cityId = null) {
                 pagination: pagination
               }
             });
+          } else {
+            console.log('error fetching restaurants');
           }
         });
+      } else {
+        console.log('error getting city info');
       }
 
     });
@@ -81,10 +85,8 @@ export function fetchRestaurants(cityId = null) {
 }
 
 export function clearRestaurants() {
-  return dispatch => {
-    dispatch({
-      type: CLEAR_RESTAURANTS
-    })
+  return {
+    type: CLEAR_RESTAURANTS
   }
 }
 
@@ -116,10 +118,8 @@ export function setRestaurant(id) {
 }
 
 export function setPlaceType(type) {
-  return (dispatch) => {
-    dispatch({
-      type: SET_PLACE_TYPE,
-      payload: type
-    });
+  return {
+    type: SET_PLACE_TYPE,
+    payload: type
   }
 }
