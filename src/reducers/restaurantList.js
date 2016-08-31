@@ -1,12 +1,17 @@
 import {SET_CITY, FETCH_RESTAURANTS, CLEAR_RESTAURANTS} from '../constants/cities';
-import {SET_PLACE_TYPE} from '../constants/restaurant';
+import {SET_PLACE_TYPE, SET_SELF_LOCATION} from '../constants/restaurant';
 
 const initialState = {
   restaurants: [],
   pagination: {},
   placeType: 'restaurant',
   rankBy: 'distance',
-  openNow: false
+  openNow: false,
+  selfLocation: {
+    use: false,
+    lat: null,
+    lon: null
+  }
 };
 
 export default function (state = initialState, action) {
@@ -29,6 +34,11 @@ export default function (state = initialState, action) {
         ...state,
         restaurants: [],
         pagination: {}
+      };
+    case SET_SELF_LOCATION:
+      return {
+        ...state,
+        selfLocation: action.payload.selfLocation
       };
     default:
       return state;

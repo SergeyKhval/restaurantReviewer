@@ -2,9 +2,14 @@ import React, {Component, PropTypes} from 'react'
 import Geosuggest from 'react-geosuggest';
 
 class Header extends Component {
-  handleChange(e) {
+  handleTypeChange(e) {
     this.props.setPlaceType(e.target.value);
     this.props.fetchRestaurants();
+  }
+
+  handleSelfLocationChange(e) {
+    this.props.setSelfLocation(e.target.checked);
+    // this.props.fetchRestaurants();
   }
 
   handleSuggest(e) {
@@ -41,15 +46,21 @@ class Header extends Component {
                   <li>
                     <label className='radio-inline'>
                       <input type='radio' name='inlineRadioOptions' id='inlineRadio1' value='restaurant'
-                             onChange={::this.handleChange}/> Restaurants
+                             onChange={::this.handleTypeChange}/> Restaurants
                     </label>
                     <label className='radio-inline'>
                       <input type='radio' name='inlineRadioOptions' id='inlineRadio2' value='cafe'
-                             onChange={::this.handleChange}/> Cafes
+                             onChange={::this.handleTypeChange}/> Cafes
                     </label>
                     <label className='radio-inline'>
                       <input type='radio' name='inlineRadioOptions' id='inlineRadio3' value='bar'
-                             onChange={::this.handleChange}/> Bars
+                             onChange={::this.handleTypeChange}/> Bars
+                    </label>
+                  </li>
+                  <li className='checkbox'>
+                    <label htmlFor='self-geo-location'>
+                      <input type='checkbox' id='self-geo-location' onChange={::this.handleSelfLocationChange}/>
+                      Near me
                     </label>
                   </li>
                 </ul>
@@ -66,7 +77,9 @@ class Header extends Component {
 
 Header.propTypes = {
   fetchRestaurants: PropTypes.func.isRequired,
-  setPlaceType: PropTypes.func.isRequired
+  setCity: PropTypes.func.isRequired,
+  setPlaceType: PropTypes.func.isRequired,
+  setSelfLocation: PropTypes.func.isRequired
 };
 
 export default Header;

@@ -33,7 +33,7 @@ class RestaurantList extends Component {
   render() {
     const {restaurants, pagination} = this.props.restaurantList;
     const {address_components} = this.props.city;
-    const {setRestaurant, setPlaceType, fetchRestaurants, setCity} = this.props.pageActions;
+    const {setRestaurant, setPlaceType, fetchRestaurants, setCity, setSelfLocation} = this.props.pageActions;
 
     let restaurantsTemplate = restaurants.map(restaurant => {
       return (
@@ -45,7 +45,8 @@ class RestaurantList extends Component {
 
     return (
       <div className='container'>
-        <Header fetchRestaurants={fetchRestaurants} setPlaceType={setPlaceType} setCity={setCity}/>
+        <Header fetchRestaurants={fetchRestaurants} setPlaceType={setPlaceType} setCity={setCity}
+                setSelfLocation={setSelfLocation}/>
         <section className='row'>
           <div className='col-xs-12'>
             <h1>Places in {place.long_name}</h1>

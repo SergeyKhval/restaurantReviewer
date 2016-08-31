@@ -1,5 +1,5 @@
 import {SET_CITY, FETCH_CITY, FETCH_RESTAURANTS, CLEAR_RESTAURANTS} from '../constants/cities';
-import {SET_RESTAURANT, SET_PLACE_TYPE} from '../constants/restaurant';
+import {SET_RESTAURANT, SET_PLACE_TYPE, SET_SELF_LOCATION} from '../constants/restaurant';
 import {REDIRECT} from '../constants/redirect';
 
 //Google waits for DOM node as an argument for PlacesService() method
@@ -128,5 +128,40 @@ export function setPlaceType(type) {
   return {
     type: SET_PLACE_TYPE,
     payload: type
+  }
+}
+
+export function setSelfLocation(bool = false) {
+  function successCb(dispatch) {
+    return position => {
+      let {latitude, longitude} = position.coords;
+
+      dispatch({
+        type: SET_SELF_LOCATION,
+        payload: {selfLocation: {latitude, longitude, use: true}}
+      })
+    }
+  }
+
+  function errorCb(dispatch) {
+    return () => {
+      dispatch({
+        type: SET_SELF_LOCATION,
+        payload: {selfLocation: {use: false}}
+      })
+    }
+  }
+
+  return (dispatch) => {
+    if (window.navigator.geolocation && bool) {
+      console.log('enabling self location');
+      navigator.geolocation.getCurrentPosition(successCb(dispatch), errorCb(dispatch))
+    } else {
+      console.log('disabling self location');
+      dispatch({
+        type: SET_SELF_LOCATION,
+        payload: {selfLocation: {use: false, lat: null, lon: null}}
+      })
+    }
   }
 }
