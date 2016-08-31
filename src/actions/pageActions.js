@@ -43,51 +43,62 @@ export function fetchCityInfo(cityId) {
 }
 
 export function fetchRestaurants(cityId = null) {
+  function nearbySearchCb(dispatch) {
+    return (results, status, pagination) => {
+      if (status == google.maps.places.PlacesServiceStatus.OK) {
+        dispatch({
+          type: FETCH_RESTAURANTS,
+          payload: {
+            results: results.filter(r => !!r.rating && r.types.indexOf('lodging') < 0),
+            pagination: pagination
+          }
+        });
+      } else {
+        console.log('error fetching restaurants');
+      }
+    }
+  }
+
   return (dispatch, getState) => {
     let state = getState();
 
-    let placeType = state.restaurantList.placeType,
-      openNow = state.restaurantList.openNow,
-      rankby = state.restaurantList.rankBy,
+    let {placeType, openNow, rankBy, selfLocation} = state.restaurantList,
       cityPlaceId = cityId || state.city.place_id;
 
     let cityDetailsRequest = {
       placeId: cityPlaceId
     };
 
-    GOOGLE_PLACE_SERVICE.getDetails(cityDetailsRequest, (place, status) => {
-      if (status == google.maps.places.PlacesServiceStatus.OK) {
-        let location = new google.maps.LatLng(place.geometry.location.lat(), place.geometry.location.lng()),
-          request = {
-            location: location,
+    if (!selfLocation.use) {
+      GOOGLE_PLACE_SERVICE.getDetails(cityDetailsRequest, (place, status) => {
+        if (status == google.maps.places.PlacesServiceStatus.OK) {
+          let location = new google.maps.LatLng(place.geometry.location.lat(), place.geometry.location.lng());
+          let request = {
+            location,
             radius: '25000',
-            type: placeType,
-            rankby,
-            opennow: openNow ? true : null
+            openNow,
+            type: placeType
           };
 
-        console.log(request);
+          GOOGLE_PLACE_SERVICE.nearbySearch(request, nearbySearchCb(dispatch));
+        } else {
+          console.log('error getting city info');
+        }
 
-        GOOGLE_PLACE_SERVICE.nearbySearch(request, function (results, status, pagination) {
-          if (status == google.maps.places.PlacesServiceStatus.OK) {
-            dispatch({
-              type: FETCH_RESTAURANTS,
-              payload: {
-                results: results.filter(r => !!r.rating && r.types.indexOf('lodging') < 0),
-                pagination: pagination
-              }
-            });
-          } else {
-            console.log('error fetching restaurants');
-          }
-        });
-      } else {
-        console.log('error getting city info');
-      }
+      });
+    } else {
+      let location = new google.maps.LatLng(selfLocation.latitude, selfLocation.longitude);
+      let request = {
+        location,
+        openNow,
+        rankBy,
+        types: [placeType]
+      };
 
-    });
+      console.log(request);
 
-
+      GOOGLE_PLACE_SERVICE.nearbySearch(request, nearbySearchCb(dispatch));
+    }
   }
 }
 
@@ -98,12 +109,8 @@ export function clearRestaurants() {
 }
 
 export function setRestaurant(id) {
-  let request = {
-    placeId: id
-  };
-
-  return (dispatch) => {
-    GOOGLE_PLACE_SERVICE.getDetails(request, (place, status) => {
+  function successCb(dispatch) {
+    return (place, status) => {
       if (status == google.maps.places.PlacesServiceStatus.OK) {
         dispatch({
           type: SET_RESTAURANT,
@@ -120,7 +127,15 @@ export function setRestaurant(id) {
       } else {
         console.log('Error with google places API');
       }
-    });
+    }
+  }
+
+  let request = {
+    placeId: id
+  };
+
+  return (dispatch) => {
+    GOOGLE_PLACE_SERVICE.getDetails(request, successCb(dispatch));
   }
 }
 
@@ -131,37 +146,44 @@ export function setPlaceType(type) {
   }
 }
 
-export function setSelfLocation(bool = false) {
-  function successCb(dispatch) {
-    return position => {
-      let {latitude, longitude} = position.coords;
-
-      dispatch({
-        type: SET_SELF_LOCATION,
-        payload: {selfLocation: {latitude, longitude, use: true}}
-      })
-    }
+function getPositionPromised() {
+  function successCb(cb) {
+    return position => cb(position.coords);
   }
 
-  function errorCb(dispatch) {
-    return () => {
-      dispatch({
-        type: SET_SELF_LOCATION,
-        payload: {selfLocation: {use: false}}
-      })
-    }
+  function errorCb(cb) {
+    return () => cb();
   }
 
-  return (dispatch) => {
-    if (window.navigator.geolocation && bool) {
-      console.log('enabling self location');
-      navigator.geolocation.getCurrentPosition(successCb(dispatch), errorCb(dispatch))
+  return new Promise((resolve, reject) => {
+    if (window.navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(successCb(resolve), errorCb(reject));
     } else {
-      console.log('disabling self location');
-      dispatch({
-        type: SET_SELF_LOCATION,
-        payload: {selfLocation: {use: false, lat: null, lon: null}}
-      })
+      reject()
     }
+  })
+}
+
+export function setSelfLocation(bool = false) {
+  return (dispatch) => {
+    getPositionPromised()
+      .then(position => {
+        if (bool) {
+          let {latitude, longitude} = position;
+
+          dispatch({
+            type: SET_SELF_LOCATION,
+            payload: {selfLocation: {latitude, longitude, use: true}}
+          });
+        } else {
+          return Promise.reject();
+        }
+      })
+      .catch(() => {
+        dispatch({
+          type: SET_SELF_LOCATION,
+          payload: {selfLocation: {use: false, lat: null, lon: null}}
+        })
+      });
   }
 }

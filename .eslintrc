@@ -9,7 +9,8 @@
     "react"
   ],
   "globals": {
-    "google": "true"
+    "google": "true",
+    "Promise": "true"
   },
   "rules": {
     "no-debugger": 0,

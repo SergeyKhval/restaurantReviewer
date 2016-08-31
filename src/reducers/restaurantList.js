@@ -5,7 +5,7 @@ const initialState = {
   restaurants: [],
   pagination: {},
   placeType: 'restaurant',
-  rankBy: 'distance',
+  rankBy: google.maps.places.RankBy.DISTANCE,
   openNow: false,
   selfLocation: {
     use: false,
