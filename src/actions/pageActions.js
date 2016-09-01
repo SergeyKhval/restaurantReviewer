@@ -33,13 +33,10 @@ function getPlaceDetailsPromised(request) {
 
 function nearbySearchPromised(request) {
   function processResponse(resolveFunc, rejectFunc) {
-    return (places, status, pagination) => {
-      if (status == google.maps.places.PlacesServiceStatus.OK) {
-        return resolveFunc({places, pagination});
-      } else {
-        return rejectFunc();
-      }
-    }
+    return (places, status, pagination) => status == google.maps.places.PlacesServiceStatus.OK ? resolveFunc({
+      places,
+      pagination
+    }) : rejectFunc()
   }
 
   return new Promise((resolve, reject) => GOOGLE_PLACE_SERVICE.nearbySearch(request, processResponse(resolve, reject)));
