@@ -31,17 +31,6 @@ function getPlaceDetailsPromised(request) {
   return new Promise((resolve, reject) => GOOGLE_PLACE_SERVICE.getDetails(request, processResponse(resolve, reject)));
 }
 
-function nearbySearchPromised(request) {
-  function processResponse(resolveFunc, rejectFunc) {
-    return (places, status, pagination) => status == google.maps.places.PlacesServiceStatus.OK ? resolveFunc({
-      places,
-      pagination
-    }) : rejectFunc()
-  }
-
-  return new Promise((resolve, reject) => GOOGLE_PLACE_SERVICE.nearbySearch(request, processResponse(resolve, reject)));
-}
-
 export function fetchCityInfo(cityId) {
   return (dispatch) => {
     let request = {
@@ -61,6 +50,20 @@ export function fetchCityInfo(cityId) {
 
 export function fetchRestaurants(cityId = null) {
   return (dispatch, getState) => {
+    function nearbySearchCallback(places, status, pagination) {
+      if (status == google.maps.places.PlacesServiceStatus.OK) {
+        dispatch({
+          type: FETCH_RESTAURANTS,
+          payload: {
+            results: places.filter(r => !!r.rating && r.types.indexOf('lodging') < 0),
+            pagination
+          }
+        })
+      } else {
+        console.log('error');
+      }
+    }
+
     let state = getState();
 
     let {placeType, openNow, rankBy, selfLocation} = state.restaurantList,
@@ -77,18 +80,7 @@ export function fetchRestaurants(cityId = null) {
             type: placeType
           };
         })
-        .then(nearbySearchPromised)
-        .then(response => {
-          dispatch({
-            type: FETCH_RESTAURANTS,
-            payload: {
-              results: response.places.filter(r => !!r.rating && r.types.indexOf('lodging') < 0),
-              pagination: response.pagination
-            }
-          });
-
-          return Promise.resolve();
-        })
+        .then(request => GOOGLE_PLACE_SERVICE.nearbySearch(request, nearbySearchCallback))
         .catch(() => {
           console.log('error getting city info');
         })
@@ -100,21 +92,7 @@ export function fetchRestaurants(cityId = null) {
         types: [placeType]
       };
 
-      nearbySearchPromised(request)
-        .then(response => {
-          dispatch({
-            type: FETCH_RESTAURANTS,
-            payload: {
-              results: response.places.filter(r => !!r.rating && r.types.indexOf('lodging') < 0),
-              pagination: response.pagination
-            }
-          });
-
-          return Promise.resolve();
-        })
-        .catch(() => {
-          console.log('error fetching restaurants');
-        });
+      GOOGLE_PLACE_SERVICE.nearbySearch(request, nearbySearchCallback)
     }
   }
 }
