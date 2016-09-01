@@ -23,81 +23,101 @@ export function setCity(city) {
   }
 }
 
+function getPlaceDetailsPromised(request) {
+  function processResponse(resolve, reject) {
+    return (place, status) => status === google.maps.places.PlacesServiceStatus.OK ? resolve(place) : reject()
+  }
+
+  return new Promise((resolve, reject) => GOOGLE_PLACE_SERVICE.getDetails(request, processResponse(resolve, reject)));
+}
+
+function nearbySearchPromised(request) {
+  function processResponse(resolveFunc, rejectFunc) {
+    return (places, status, pagination) => {
+      if (status == google.maps.places.PlacesServiceStatus.OK) {
+        return resolveFunc({places, pagination});
+      } else {
+        return rejectFunc();
+      }
+    }
+  }
+
+  return new Promise((resolve, reject) => GOOGLE_PLACE_SERVICE.nearbySearch(request, processResponse(resolve, reject)));
+}
+
 export function fetchCityInfo(cityId) {
   return (dispatch) => {
     let request = {
       placeId: cityId
     };
 
-    GOOGLE_PLACE_SERVICE.getDetails(request, (place, status) => {
-      if (status == google.maps.places.PlacesServiceStatus.OK) {
-        dispatch({
-          type: FETCH_CITY,
-          payload: place
-        });
-      } else {
+    getPlaceDetailsPromised(request)
+      .then(place => dispatch({
+        type: FETCH_CITY,
+        payload: place
+      }))
+      .catch(() => {
         console.log('Error with google places API');
-      }
-    });
+      });
   }
 }
 
 export function fetchRestaurants(cityId = null) {
-  function nearbySearchCb(dispatch) {
-    return (results, status, pagination) => {
-      if (status == google.maps.places.PlacesServiceStatus.OK) {
-        dispatch({
-          type: FETCH_RESTAURANTS,
-          payload: {
-            results: results.filter(r => !!r.rating && r.types.indexOf('lodging') < 0),
-            pagination: pagination
-          }
-        });
-      } else {
-        console.log('error fetching restaurants');
-      }
-    }
-  }
-
   return (dispatch, getState) => {
     let state = getState();
 
     let {placeType, openNow, rankBy, selfLocation} = state.restaurantList,
-      cityPlaceId = cityId || state.city.place_id;
-
-    let cityDetailsRequest = {
-      placeId: cityPlaceId
-    };
+      placeId = cityId || state.city.place_id;
 
     if (!selfLocation.use) {
-      GOOGLE_PLACE_SERVICE.getDetails(cityDetailsRequest, (place, status) => {
-        if (status == google.maps.places.PlacesServiceStatus.OK) {
+      getPlaceDetailsPromised({placeId})
+        .then(place => {
           let location = new google.maps.LatLng(place.geometry.location.lat(), place.geometry.location.lng());
-          let request = {
+          return {
             location,
             radius: '25000',
             openNow,
             type: placeType
           };
+        })
+        .then(nearbySearchPromised)
+        .then(response => {
+          dispatch({
+            type: FETCH_RESTAURANTS,
+            payload: {
+              results: response.places.filter(r => !!r.rating && r.types.indexOf('lodging') < 0),
+              pagination: response.pagination
+            }
+          });
 
-          GOOGLE_PLACE_SERVICE.nearbySearch(request, nearbySearchCb(dispatch));
-        } else {
+          return Promise.resolve();
+        })
+        .catch(() => {
           console.log('error getting city info');
-        }
-
-      });
+        })
     } else {
-      let location = new google.maps.LatLng(selfLocation.latitude, selfLocation.longitude);
       let request = {
-        location,
+        location: new google.maps.LatLng(selfLocation.latitude, selfLocation.longitude),
         openNow,
         rankBy,
         types: [placeType]
       };
 
-      console.log(request);
+      nearbySearchPromised(request)
+        .then(response => {
+          dispatch({
+            type: FETCH_RESTAURANTS,
+            payload: {
+              results: response.places.filter(r => !!r.rating && r.types.indexOf('lodging') < 0),
+              pagination: response.pagination
+            }
+          });
 
-      GOOGLE_PLACE_SERVICE.nearbySearch(request, nearbySearchCb(dispatch));
+          return Promise.resolve();
+        })
+        .catch(() => {
+          console.log('error fetching restaurants');
+        });
     }
   }
 }
@@ -108,34 +128,31 @@ export function clearRestaurants() {
   }
 }
 
-export function setRestaurant(id) {
-  function successCb(dispatch) {
-    return (place, status) => {
-      if (status == google.maps.places.PlacesServiceStatus.OK) {
+export function setRestaurant(placeId) {
+  return (dispatch) => {
+    return getPlaceDetailsPromised({placeId})
+      .then(place => {
         dispatch({
           type: SET_RESTAURANT,
           payload: place
         });
 
+        return Promise.resolve();
+      })
+      .then(() => {
         dispatch({
           type: REDIRECT,
           payload: {
             method: 'push',
-            nextUrl: `/restaurants/${id}`
+            nextUrl: `/restaurants/${placeId}`
           }
         });
-      } else {
-        console.log('Error with google places API');
-      }
-    }
-  }
 
-  let request = {
-    placeId: id
-  };
-
-  return (dispatch) => {
-    GOOGLE_PLACE_SERVICE.getDetails(request, successCb(dispatch));
+        return Promise.resolve();
+      })
+      .catch(() => {
+        console.log('Could not fetch restaurant details')
+      });
   }
 }
 
@@ -165,7 +182,9 @@ function getPositionPromised() {
 }
 
 export function setSelfLocation(bool = false) {
-  return (dispatch) => {
+  const getRestaurants = fetchRestaurants();
+
+  return (dispatch, getState) => {
     getPositionPromised()
       .then(position => {
         if (bool) {
@@ -175,10 +194,17 @@ export function setSelfLocation(bool = false) {
             type: SET_SELF_LOCATION,
             payload: {selfLocation: {latitude, longitude, use: true}}
           });
+
+          dispatch({
+            type: CLEAR_RESTAURANTS
+          })
         } else {
           return Promise.reject();
         }
+
+        return Promise.resolve();
       })
+      .then(() => getRestaurants(dispatch, getState))
       .catch(() => {
         dispatch({
           type: SET_SELF_LOCATION,
