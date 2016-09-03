@@ -74,12 +74,19 @@ class DetailedRestaurant extends Component {
         <div className='container-fluid'>
           <div className='row'>
             <div className='restaurant-heading' style={{backgroundImage: `url(${headPhoto})`}}>
-              <h1 className='restaurant-heading__title'>{name}</h1>
-              {website ? <p className='restaurant-heading__info'><a href={website}>Our website</a></p> : null}
+              {website ?
+                <h1 className='restaurant-heading__title'>
+                  <a href={website} target='_blank'>{name} <span className='glyphicon glyphicon-new-window'/></a>
+                </h1> :
+                <h1 className='restaurant-heading__title'>{name}</h1>}
               <p className='restaurant-heading__info'>
-                <span className='glyphicon glyphicon-map-marker'/>
-                &nbsp;
-                {formatted_address}
+                <a href={`http://maps.google.com/?q=${formatted_address}`} target='_blank'>
+                  <span className='glyphicon glyphicon-map-marker'/>
+                  &nbsp;
+                  {formatted_address}
+                  &nbsp;
+                  <span className='glyphicon glyphicon-new-window'/>
+                </a>
               </p>
               <p className='restaurant-heading__info'>
                 <a href={`tel:${formatted_phone_number}`}>
