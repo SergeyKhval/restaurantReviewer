@@ -1,7 +1,7 @@
-import {SET_CITY, FETCH_CITY} from '../constants/cities';
+import {SET_CITY} from '../constants/cities';
 
 const initialState = {
-  address_components: []
+  label: ''
 };
 
 export default function (state = initialState, action) {
@@ -9,12 +9,8 @@ export default function (state = initialState, action) {
     case SET_CITY:
       return {
         ...state,
-        place_id: action.payload.placeId
-      };
-    case FETCH_CITY:
-      return {
-        ...state,
-        ...action.payload
+        place_id: action.payload.placeId,
+        label: action.payload.label
       };
     default:
       return state;

@@ -9,7 +9,6 @@ class Header extends Component {
 
   handleSelfLocationChange(e) {
     this.props.setSelfLocation(e.target.checked);
-    // this.props.fetchRestaurants();
   }
 
   handleSuggest(e) {

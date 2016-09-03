@@ -19,21 +19,21 @@ class RestaurantList extends Component {
     }
   }
 
-  getCityTitle(components) {
-    return components.length ? components.filter(component => component.types.indexOf('locality') > -1).shift() : '';
+  fetchCityInfo() {
+    this.props.pageActions.fetchCityInfo(this.props.params.cityId);
   }
 
   componentWillMount() {
-    //currently I can not come up with anything better than simply clearing restaurant list at every component mount
     this.props.pageActions.clearRestaurants();
-    this.props.pageActions.fetchCityInfo(this.props.params.cityId);
     this.props.pageActions.fetchRestaurants(this.props.params.cityId);
   }
 
   render() {
     const {restaurants, pagination} = this.props.restaurantList;
-    const {address_components} = this.props.city;
+    const {label} = this.props.city;
     const {setRestaurant, setPlaceType, fetchRestaurants, setCity, setSelfLocation} = this.props.pageActions;
+
+    const cityName = label || this.fetchCityInfo();
 
     let restaurantsTemplate = restaurants.map(restaurant => {
       return (
@@ -41,15 +41,13 @@ class RestaurantList extends Component {
       )
     });
 
-    let place = this.getCityTitle(address_components);
-
     return (
       <div className='container'>
         <Header fetchRestaurants={fetchRestaurants} setPlaceType={setPlaceType} setCity={setCity}
                 setSelfLocation={setSelfLocation}/>
         <section className='row'>
           <div className='col-xs-12'>
-            <h1>Places in {place.long_name}</h1>
+            <h1>Places in {cityName}</h1>
           </div>
           {restaurantsTemplate}
           <div className='col-xs-12'>
