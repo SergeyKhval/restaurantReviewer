@@ -23,12 +23,12 @@ export function setCity(city) {
   }
 }
 
-function getPlaceDetailsPromised(request) {
+function getPlaceDetailsPromised(service, request) {
   function processResponse(resolve, reject) {
     return (place, status) => status === google.maps.places.PlacesServiceStatus.OK ? resolve(place) : reject()
   }
 
-  return new Promise((resolve, reject) => GOOGLE_PLACE_SERVICE.getDetails(request, processResponse(resolve, reject)));
+  return new Promise((resolve, reject) => service.getDetails(request, processResponse(resolve, reject)));
 }
 
 export function fetchCityInfo(cityId) {
@@ -37,7 +37,7 @@ export function fetchCityInfo(cityId) {
       placeId: cityId
     };
 
-    getPlaceDetailsPromised(request)
+    getPlaceDetailsPromised(GOOGLE_PLACE_SERVICE, request)
       .then(place => dispatch({
         type: FETCH_CITY,
         payload: place
@@ -70,7 +70,7 @@ export function fetchRestaurants(cityId = null) {
       placeId = cityId || state.city.place_id;
 
     if (!selfLocation.use) {
-      getPlaceDetailsPromised({placeId})
+      getPlaceDetailsPromised(GOOGLE_PLACE_SERVICE, {placeId})
         .then(place => {
           let location = new google.maps.LatLng(place.geometry.location.lat(), place.geometry.location.lng());
           return {
@@ -105,7 +105,7 @@ export function clearRestaurants() {
 
 export function setRestaurant(placeId) {
   return (dispatch) => {
-    return getPlaceDetailsPromised({placeId})
+    return getPlaceDetailsPromised(GOOGLE_PLACE_SERVICE, {placeId})
       .then(place => {
         dispatch({
           type: SET_RESTAURANT,
