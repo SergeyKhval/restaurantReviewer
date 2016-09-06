@@ -7,15 +7,17 @@ module.exports = {
   entry: ['bootstrap-loader/extractStyles'],
 
   output: {
-    publicPath: 'dist/',
+    publicPath: '/',
   },
 
   module: {
     loaders: [{
       test: /\.scss$/,
-      loader: 'style!css!postcss-loader!sass',
+      loader: 'style!css!postcss-loader!sass!sass-resources',
     }],
   },
+
+  sassResources: ['./src/styles/variables.scss', './src/styles/sass-resources.scss'],
 
   plugins: [
     new webpack.DefinePlugin({
