@@ -13,9 +13,16 @@ class App extends Component {
     const types = ['(cities)'];
     const {setCity} = this.props.pageActions;
 
+    const geosuggest = <Geosuggest autoFocus
+                                   id='geosuggest-id'
+                                   onSuggestSelect={setCity}
+                                   placeholder='Enter any city e.g. New York'
+                                   types={types}/>;
+
     return (
       <div className='homepage'>
-        <Geosuggest autoFocus types={types} onSuggestSelect={setCity} placeholder='Enter any city e.g. New York'/>
+        <label htmlFor='geosuggest-id' className='geosuggest-label'>Search for cool places:</label>
+        {geosuggest}
       </div>
     )
   }

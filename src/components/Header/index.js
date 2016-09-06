@@ -1,4 +1,5 @@
 import React, {Component, PropTypes} from 'react'
+import {Link} from 'react-router';
 import Geosuggest from 'react-geosuggest';
 
 class Header extends Component {
@@ -32,7 +33,7 @@ class Header extends Component {
                   <span className='icon-bar'/>
                   <span className='icon-bar'/>
                 </button>
-                <a className='navbar-brand' href='/'>Restik</a>
+                <Link className='navbar-brand' to='/'>Restik</Link>
               </div>
 
               <div className='collapse navbar-collapse' id='bs-example-navbar-collapse-1'>

@@ -55,7 +55,7 @@ export function fetchCityInfo(placeId) {
             str = `${str}, ${component.long_name}`;
           }
 
-          return str.trim().replace(/^\,/, '');
+          return str.trim().replace(/^,/, '');
         }, '');
 
         dispatch({
