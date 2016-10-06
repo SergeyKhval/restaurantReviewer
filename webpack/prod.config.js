@@ -7,7 +7,7 @@ module.exports = {
   entry: ['bootstrap-loader/extractStyles'],
 
   output: {
-    publicPath: '/restaurantReviewer/',
+    publicPath: 'https://sergeykhval.github.io/restaurantReviewer/',
   },
 
   module: {
