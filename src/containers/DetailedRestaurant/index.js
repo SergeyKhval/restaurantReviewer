@@ -89,7 +89,7 @@ class DetailedRestaurant extends Component {
                 </a>
               </p>
               <p className='restaurant-heading__info'>
-                <a href={`tel:${formatted_phone_number}`}>
+                <a href={`tel:${formatted_phone_number}`} aria-label={`Call ${name} at ${formatted_phone_number}`}>
                   <span className='glyphicon glyphicon-earphone'/>
                   &nbsp;
                   {formatted_phone_number}
@@ -105,7 +105,7 @@ class DetailedRestaurant extends Component {
           <div className='row'>
             <div className='col-xs-12'>
               <section className='panel panel-primary'>
-                <h2 className='panel-heading panel-heading_header' tabIndex='0'>
+                <h2 className='panel-heading panel-heading_header'>
                   Working hours
                 </h2>
                 <div className='panel-body'>
@@ -113,7 +113,7 @@ class DetailedRestaurant extends Component {
                 </div>
               </section>
               <section className='panel panel-primary'>
-                <h2 className='panel-heading panel-heading_header' tabIndex='0'>
+                <h2 className='panel-heading panel-heading_header'>
                   Reviews
                 </h2>
                 <div className='panel-body'>

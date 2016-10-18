@@ -2,6 +2,9 @@ import React, {Component, PropTypes} from 'react'
 import {Link} from 'react-router';
 import Geosuggest from 'react-geosuggest';
 
+//styles
+import './style.scss';
+
 class Header extends Component {
   handleTypeChange(e) {
     this.props.setPlaceType(e.target.value);
@@ -39,7 +42,8 @@ class Header extends Component {
               <div className='collapse navbar-collapse' id='bs-example-navbar-collapse-1'>
                 <form className='navbar-form navbar-left'>
                   <div className='form-group'>
-                    <Geosuggest className='geosuggest_unstyled' types={types} onSuggestSelect={::this.handleSuggest}/>
+                    <Geosuggest id='header-search' className='geosuggest_unstyled' label='Search:' types={types}
+                                onSuggestSelect={::this.handleSuggest}/>
                   </div>
                 </form>
                 <ul className='nav navbar-nav'>

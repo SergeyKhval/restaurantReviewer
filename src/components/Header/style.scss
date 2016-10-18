@@ -1,0 +1,8 @@
+//until BEM class is added to geosuggest labels we'll need cascade to reach it
+.navbar-form {
+  .geosuggest {
+    label {
+      display: none;
+    }
+  }
+}

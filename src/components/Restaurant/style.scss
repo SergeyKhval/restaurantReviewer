@@ -61,7 +61,8 @@
   transition: all 0.25s ease;
 
   img {
-    height: 260px;
+    height: auto;
+    max-height: 260px;
   }
 
   &__title {
