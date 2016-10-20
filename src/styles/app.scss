@@ -10,6 +10,10 @@ body {
   }
 }
 
+.control-label {
+  @extend label;
+}
+
 blockquote footer {
   color: $brand-primary;
 

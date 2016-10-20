@@ -5,6 +5,7 @@ import {bindActionCreators} from 'redux';
 import {Button, Modal} from 'react-bootstrap';
 import Review from '../../components/Review';
 import WorkingHours from '../../components/WorkingHours';
+import StarsInput from '../../components/StarsInput';
 import StarRating from '../../components/StarRating';
 import Footer from '../../components/Footer';
 import * as actions from '../../actions/detailedRestaurantActions';
@@ -139,9 +140,8 @@ class DetailedRestaurant extends Component {
                                 placeholder='What a marvelous place...' required/>
                     </div>
                     <div className='form-group'>
-                      <label className='control-label' htmlFor='rating'>Rating</label>
-                      <input id='rating' name='rating' className='form-control' type='number' min={0} max={5}
-                             placeholder='Rate this place between 0 and 5' required/>
+                      <p className='control-label'>Rating:</p>
+                      <StarsInput/>
                     </div>
                     <div className='form-group text-right'>
                       <Button bsStyle='link' onClick={::this.closeModal}>Cancel</Button>
