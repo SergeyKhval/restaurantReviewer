@@ -10,7 +10,7 @@ class StarRating extends Component {
 
 
     return (
-      <div className='star-rating'>
+      <div className='star-rating' role='img' aria-labeledby={`Rated ${rating} stars`}>
         {template}
       </div>
     )

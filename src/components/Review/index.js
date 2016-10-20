@@ -8,7 +8,7 @@ class Review extends Component {
     let d = new Date(date);
 
     return (
-      <div className='well well-sm'>
+      <article className='well well-sm'>
         <blockquote>
           <p>{text}</p>
           <StarRating rating={rating}/>
@@ -18,7 +18,7 @@ class Review extends Component {
           </footer>
         </blockquote>
 
-      </div>
+      </article>
     )
   }
 }

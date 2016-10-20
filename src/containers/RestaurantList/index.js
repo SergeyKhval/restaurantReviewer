@@ -45,17 +45,17 @@ class RestaurantList extends Component {
       <div className='container'>
         <Header fetchRestaurants={fetchRestaurants} setPlaceType={setPlaceType} setCity={setCity}
                 setSelfLocation={setSelfLocation}/>
-        <section className='row'>
-          <div className='col-xs-12'>
+        <main className='row'>
+          <header className='col-xs-12'>
             <h1>Places in {cityName}</h1>
-          </div>
+          </header>
           {restaurantsTemplate}
-          <div className='col-xs-12'>
+          <footer className='col-xs-12'>
             <button className='btn btn-primary' onClick={::this.handleMoreClick} disabled={!pagination.hasNextPage}>Load
               more
             </button>
-          </div>
-        </section>
+          </footer>
+        </main>
         <Footer/>
       </div>
 

@@ -24,7 +24,7 @@ class Header extends Component {
     const types = ['(cities)'];
 
     return (
-      <div className='row'>
+      <header className='row'>
         <div className='col-xs-12'>
           <nav className='navbar navbar-default'>
             <div className='container-fluid'>
@@ -73,7 +73,7 @@ class Header extends Component {
             </div>
           </nav>
         </div>
-      </div>
+      </header>
 
     )
   }

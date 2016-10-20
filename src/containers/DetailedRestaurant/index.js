@@ -72,7 +72,7 @@ class DetailedRestaurant extends Component {
 
     return (
       <div>
-        <div className='container-fluid'>
+        <header className='container-fluid'>
           <div className='row'>
             <div className='restaurant-heading' style={{backgroundImage: `url(${headPhoto})`}}>
               {website ?
@@ -101,8 +101,8 @@ class DetailedRestaurant extends Component {
               </div>
             </div>
           </div>
-        </div>
-        <div className='container'>
+        </header>
+        <main className='container'>
           <div className='row'>
             <div className='col-xs-12'>
               <section className='panel panel-primary'>
@@ -153,7 +153,7 @@ class DetailedRestaurant extends Component {
             </div>
           </div>
           <Footer/>
-        </div>
+        </main>
       </div>
 
     )

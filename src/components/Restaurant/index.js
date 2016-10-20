@@ -18,7 +18,7 @@ class Restaurant extends Component {
     let imgUrl = restaurant.photos ? restaurant.photos[0].getUrl({'maxWidth': 350}) : placeholder;
 
     return (
-      <div className='col-md-4'>
+      <article className='col-md-4'>
         <a href='#' className='restaurant-preview__info preview-info thumbnail' onClick={::this.handleClick}
            title={restaurant.name}>
           <img src={imgUrl} alt={restaurant.name}/>
@@ -29,7 +29,7 @@ class Restaurant extends Component {
           </div>
 
         </a>
-      </div>
+      </article>
 
     )
   }
